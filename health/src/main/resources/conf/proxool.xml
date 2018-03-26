@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+"http://www.w3.org/2002/xmlspec/dtd/2.10/xmlspec.dtd">
+
+<proxool>   
+      <alias>bmsdbv2</alias>  
+       <driver-url>${jdbc_url}</driver-url>  
+        
+      <driver-class>${jdbc_driverClassName}</driver-class>   
+      <driver-properties>   
+             <property name="user" value="${jdbc_username}" />   
+             <property name="password" value="${jdbc_password}" />   
+      </driver-properties>   
+      <prototype-count>2</prototype-count>  
+      <minimum-connection-count>2</minimum-connection-count>   
+      <maximum-connection-count>40</maximum-connection-count>   
+      <simultaneous-build-throttle>20</simultaneous-build-throttle>   
+        <house-keeping-sleep-time>90000</house-keeping-sleep-time>    
+        <test-before-use>true</test-before-use>    
+        <house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>        
+</proxool>   
