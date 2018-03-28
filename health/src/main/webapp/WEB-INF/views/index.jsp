@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 .choose{
 	text-align:center;
-    vertical-align:middle;
+    margin-top:10%;
 }
 </style>
   </head>
@@ -50,9 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<span>请选择您的身份</span>
   	</div>
   	<div>
-  		<a class="button" type="button" onclick="" href="<%=basePath%>/userLoginController/toLoginPage.do">管理员</a>
-	  	<a class="button" type="button" onclick="" href="<%=basePath%>/userLoginController/toLoginPage.do">医生</a>
-	  	<a class="button" type="button" onclick="" href="<%=basePath%>/userLoginController/toLoginPage.do">普通用户</a>
+  		<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">管理员</a>
+	  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">医生</a>
+	  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">普通用户</a>
   	</div>
   </div> 
   </body>

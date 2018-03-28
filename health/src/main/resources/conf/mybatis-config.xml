@@ -4,14 +4,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
         <!-- 命名空间 -->
-    <typeAliases>
-         <!-- <typeAlias alias="user" type="com.neusoft.sdd.businessConsole.user.model.User"/> 
-         <typeAlias alias="role" type="com.neusoft.sdd.businessConsole.role.model.Role"/> 
-         <typeAlias alias="menu" type="com.neusoft.sdd.businessConsole.menu.model.Menu"/>
-         <typeAlias alias="station" type="com.neusoft.sdd.businessConsole.station.model.Station"/>
-         <typeAlias alias="department" type="com.neusoft.sdd.businessConsole.department.model.Department"/>
-          <typeAlias alias="goodsmgr" type="com.neusoft.sdd.goodsmgr.model.GoodsmgrModel"/>
-     --></typeAliases>
+    <typeAliases></typeAliases>
 	 <!-- 
 	    plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下:
 	    properties?, settings?, 

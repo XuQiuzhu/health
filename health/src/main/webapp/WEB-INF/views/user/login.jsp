@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -61,12 +60,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 	<div class="login">
-		<form action="Login/YongHuLogin.do" method="post">  
-		            账号: <input type="text" name="username" /><br />  
-		            密码: <input type="text" name="password" /> <br />  
-		    <input type="submit" class="subBtn" value="提交">                                    
+		<form id="userLogin">  
+		            手机号: <input type="text" name="PHONE" /><br />  
+		            密码: <input type="password" name="PASSWORD" /> <br />  
+		    <input type="button" class="subBtn" onclick="userLogin()" value="登录">                                    
 		</form>
 		<a onclick="" class="register" href="<%=basePath%>userLoginController/toRegisterPage.do">没有账号？点击注册</a>
 	</div>
 </body>
+<script type="text/javascript">
+	function userLogin(){
+		var form= $("#userLogin");
+		var isValid = $(form).form('validate');	
+		if(isValid){
+			var data = ns.serializeObject(form);//获取表单所有的name值
+			$.ajax({
+				type : 'post',
+				url : basePath+'/userLoginController/userLogin.do',
+				data :{"data":JSON.stringify(data)},
+				dataType : 'json',
+				success : function(result) {
+					console.info(result.result);
+					if (result.result == 'success'){
+						window.location.href = "<%=basePath%>userLoginController/toUserHomepage.do";
+					}
+					if (result.result == 'wrongPwd'){
+						$.messager.alert('提示','密码错误！','error');
+					}
+					if (result.result == 'wrongPhone'){
+						$.messager.alert('提示','手机号未注册','error');
+					}
+				},error:function(){
+					$.messager.alert('提示','系统异常','error');
+				}
+			});
+		}
+	}
+</script>
 </html>
