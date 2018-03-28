@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="selfInfoMgr.userInfoMgr.dao.IUserInfoMgrDao">
+	<!-- 销售单详情 -->
+	<select id="getUserInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.USERID,
+			A.USERNAME,
+			A.NICKNAME,
+			A.PHONE,
+			A.GENDER,
+			A.SELFAGE,
+			A.EMAIL,
+			date_format(A.BORN_DATE, '%Y-%c-%d') AS BORN_DATE
+		FROM 
+			H_USER A
+		WHERE 
+			A.UUID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<!-- <insert id="impUsers" parameterType="java.util.Map">
+		INSERT INTO YONGHU
+		  (YONGHU_UUID,YONGHU_CODE,YONGHU_NAME,YONGHU_PASSWORD,YONGHU_NICKNAME)
+		<foreach open="(" close=")" collection="list" item="item" index="index" separator="UNION">
+		 SELECT 
+		        #{item.YONGHU_UUID,jdbcType=VARCHAR},
+				#{item.YONGHU_CODE,jdbcType=VARCHAR},
+				#{item.YONGHU_NAME,jdbcType=VARCHAR},
+				#{item.YONGHU_PASSWORD,jdbcType=VARCHAR},
+				#{item.YONGHU_NICKNAME,jdbcType=VARCHAR}
+		     FROM dual
+		   </foreach>
+	</insert> -->
+	
+	<update id="updateUserInfo" parameterType="java.util.Map">
+		UPDATE H_USER
+		SET	USERNAME = #{USERNAME},
+			NICKNAME = #{NICKNAME},
+			GENDER = #{GENDER},
+			SELFAGE = #{SELFAGE},
+			EMAIL = #{EMAIL},
+			BORN_DATE = #{BORN_DATE}	
+		WHERE PHONE = #{PHONE}
+	</update>
+	
+	<update id="uploadUserPro" parameterType="java.util.Map">
+		UPDATE H_USER
+		SET	PORTRAIT = #{PORTRAIT}	
+		WHERE UUID = #{UUID}
+	</update>
+	
+</mapper>
