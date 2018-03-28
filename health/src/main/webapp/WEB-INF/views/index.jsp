@@ -57,6 +57,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div> 
   </body>
   <script type="text/javascript">
+  $(function(){
+	    if (window != top) {    
+	        top.location.href = location.href;    
+	    }    
+	}); 
   function submitIdentity(identity){
 	  var url = basePath;
 	  if(identity == 3){

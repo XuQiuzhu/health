@@ -16,7 +16,7 @@
 		WHERE 
 			A.PHONE = #{PHONE}
 		AND 
-			A.delete_flag = 0
+			A.DELETE_FLAG = 0
 	</select>
 	
 	<insert id="register" parameterType="java.util.Map">

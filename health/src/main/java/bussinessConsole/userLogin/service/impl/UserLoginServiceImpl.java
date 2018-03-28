@@ -45,6 +45,7 @@ public class UserLoginServiceImpl implements IUserLoginService {
 		if(null != resultList && resultList.size() != 0) {
 			result = resultList.get(0);
 			request.getSession().setAttribute(GlobalConstant.LOGIN_USER,result.get("UUID"));
+			String user = (String)request.getSession().getAttribute(GlobalConstant.LOGIN_USER);
 			if(String.valueOf(result.get("PASSWORD")).equals(EncodeUtil.encode(String.valueOf(param.get("PASSWORD"))))) {
 				return "success";//登录成功
 			}else {

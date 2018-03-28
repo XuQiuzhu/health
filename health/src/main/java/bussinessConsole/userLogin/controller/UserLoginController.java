@@ -67,6 +67,6 @@ public class UserLoginController extends BaseController{
 	
 	@RequestMapping("/toUserHomepage")
 	public String toUserHomepage() {
-		return null;
+		return "user/userHomepage";
 	}
 }

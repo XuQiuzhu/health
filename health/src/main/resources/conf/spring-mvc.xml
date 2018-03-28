@@ -22,6 +22,33 @@
    <!-- <bean id="initMsgConfig" class="com.zhuzi.util.MsgConfigUtil" init-method="initMsgConfig"></bean> -->
    <!-- 初始化定时任务 -->
   	<!-- <bean id="initQuartzJob" class="com.neusoft.sdd.util.commonUtil.QuartzManager" init-method="initQuartzJob"></bean> -->
+  	
+  	<mvc:interceptors>    
+        <mvc:interceptor>    
+            <mvc:mapping path="/*/*" />    
+            <bean class="base.interceptor.SessionTimeoutInterceptor" >    
+                <property name="allowUrls">      
+                    <list>      
+                      <value>index.do</value> 
+                      <value>toLoginPage.do</value>
+                      <value>toRegisterPage.do</value>
+                      <value>register.do</value>
+                      <value>Login.do</value>
+                    </list>      
+                </property>      
+            </bean>    
+        </mvc:interceptor>    
+    </mvc:interceptors>   
+    <!-- exception handler 统一异常处理-->    
+    <!-- <bean id="handlerExceptionResolver"    
+     class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" >    
+        <property name="exceptionMappings">    
+            <props>    
+                <prop key="*.CustomeException">redirect:/BaseController/index.do</prop>    
+            </props>    
+        </property>    
+    </bean> -->  
+  	
    <!-- 避免IE在ajax请求时，返回json出现下载 -->
    <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">		
 		<property name="supportedMediaTypes">
