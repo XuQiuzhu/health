@@ -10,4 +10,5 @@ public interface IUserInfoMgrService {
 	public Map<String,Object> getUserInfo();
 	public void updateUserInfo(Map<String,Object> param);
 	public String uploadUserPro(MultipartFile file) throws IllegalStateException, IOException;
+	public Map<String,String> getPro();
 }

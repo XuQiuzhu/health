@@ -6,17 +6,17 @@
 <script src="${ct}/plugin/jquery-easyui-1.5.4.2/jquery.min.js"></script>
 <script src="${ct}/plugin/jquery-easyui-1.5.4.2/jquery.easyui.min.js"></script>
 <script src="${ct}/plugin/jquery-easyui-1.5.4.2/locale/easyui-lang-zh_CN.js"></script>
+<script src="${ct}/plugin/Highcharts-6.0.7/code/highcharts.js"></script>
 <link rel="stylesheet" href="${ct}/plugin/jquery-easyui-1.5.4.2/themes/gray/easyui.css" id="swicth-style">
 <%-- <link rel="stylesheet" href="${ct}/businessConsole/css/style.css"> --%>
 
 
-<%-- <link rel="stylesheet" href="${ct}/businessConsole/javascript/jquery-easyui-1.3.2/themes/cupertino/easyui.css" id="swicth-style"> --%>
 <link rel="stylesheet" href="${ct}/plugin/jquery-easyui-1.5.4.2/themes/icon.css">
 <script src="${ct}/plugin/javascript/extEasyui.js"></script>
 <script src="${ct}/plugin/javascript/extJquery.js"></script>
 <script src="${ct}/plugin/javascript/jquery.cookie.js"></script>
 <script src="${ct}/plugin/javascript/json2.js"></script>
-<script src="${ct}/plugin/javascript/ajaxfileupload.js"></script>
+<script src="${ct}/plugin/ajaxfileupload.js"></script>
 <script src="${ct}/plugin/javascript/jquery.timelinr.js"></script>
 <script src="${ct}/plugin/javascript/arithmetic.js"></script>        
 <script>

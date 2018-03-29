@@ -66,4 +66,11 @@ public class UserInfoMgrServiceImpl implements IUserInfoMgrService {
 	        return path;
 	}
 
+	@Override
+	public Map<String, String> getPro() {
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("UUID", (String) session.getAttribute(GlobalConstant.LOGIN_USER));
+		return userInfoMgrDao.getPro(param);
+	}
+
 }

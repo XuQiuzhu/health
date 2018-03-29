@@ -7,7 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>主页</title>
 <%@include file="../common/common.jsp"%>
 </head>
 <body>
@@ -37,6 +37,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<ul>
 							<li><a onclick="addTab('信息管理','<%=basePath%>UserInfoMgrController/toUserInfoCheckPage.do')">信息管理</a></li>
 							<li><a onclick="addTab('头像管理','<%=basePath%>UserInfoMgrController/toUserPortraitMgrPage.do')">头像管理</a></li>
+						</ul>
+					</li>
+					<li>
+						<span>健康数据</span>
+						<ul>
+							<li><a onclick="addTab('健康数据','<%=basePath%>HealthDataMgrController/toHealdataPage.do')">健康数据</a></li>
+							<li><a onclick="addTab('图表查看','<%=basePath%>HealthDataMgrController/toHealdataPage.do')">图表查看</a></li>
 						</ul>
 					</li>
 				</ul>

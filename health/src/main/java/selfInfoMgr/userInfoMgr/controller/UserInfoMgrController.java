@@ -1,6 +1,5 @@
 package selfInfoMgr.userInfoMgr.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,7 @@ import selfInfoMgr.userInfoMgr.service.IUserInfoMgrService;
 
 @Controller
 @RequestMapping("/UserInfoMgrController")
-public class UserInfoMgrController  extends BaseController{
+public class UserInfoMgrController extends BaseController{
 
 	@Autowired
 	private IUserInfoMgrService userInfoMgrService;
@@ -56,7 +55,8 @@ public class UserInfoMgrController  extends BaseController{
 	@RequestMapping("/updateUserInfo")
 	public void updateUserInfo(HttpServletRequest request,HttpServletResponse response) {
 		String data = request.getParameter("data");
-		Map<String, Object> param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		Map<String, Object> param = new HashMap<String, Object>();
+		param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
 		Map<String,String> result = new HashMap<String, String>();
 		try{
 			userInfoMgrService.updateUserInfo(param);
@@ -88,6 +88,13 @@ public class UserInfoMgrController  extends BaseController{
 	
 	@RequestMapping("getPro")
 	public void getPro(HttpServletRequest request,HttpServletResponse response) {
-		
+		Map<String,String> result = new HashMap<String, String>();
+		try{
+			result = userInfoMgrService.getPro();
+			} catch (Exception e) {
+				result.put("result", "error");
+				throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+			}
+			printHttpServletResponse(new Gson().toJson(result),response);
 	}
 }

@@ -26,10 +26,10 @@
 		  (#{UUID},#{NICKNAME},#{PHONE},1,#{GENDER},#{PASSWORD},#{EMAIL},NOW(),0,'',NOW())
 	</insert>
 	
-	<update id="uploadPic" parameterType="java.util.Map">
+	<!-- <update id="uploadPic" parameterType="java.util.Map">
 		UPDATE YONGHU
 		SET	TOUXIANG_PATH = #{TOUXIANG_PATH},
 			TOUXIANG_NAME = #{TOUXIANG_NAME}	
 		WHERE YONGHU_CODE = #{YONGHU_CODE}
-	</update>
+	</update> -->
 </mapper>

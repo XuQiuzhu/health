@@ -7,13 +7,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>头像管理</title>
 <%@include file="../../common/common.jsp"%>
+<style type="text/css">
+	#touxiangPic{
+		height:100px;
+	}
+</style>
 </head>
 <body>
 <div>
 	<div id="pics">
-    	<img id="touxiangPic" src="">
+    	<img id="touxiangPic" src="#">
     </div>
     <label>头 像</label><input id="fileField" type="file" name="file"  style="width: 230px;" class="easyui-filebox,file" data-options="required:true"/><br/>
     <button type="button" class=""  onclick="uploadUserPro()" >上传</button>
@@ -30,8 +35,8 @@ function getPro(){
 		url : basePath+'/UserInfoMgrController/getPro.do',
 		dataType : 'json',
 		success : function(result) {
-			if(result.path != null){
-				$("#touxiangPic").attr('src',basePath+result.path);
+			if(result.PORTRAIT != null){
+				$("#touxiangPic").attr('src',basePath+result.PORTRAIT);
 			}
 		},error:function(){
 			$.messager.alert('提示','头像加载失败','error');
@@ -40,10 +45,10 @@ function getPro(){
 }
 
 function uploadUserPro(){     
-	  var uploadEventFile = $("#fileField1").val();  
-      if(uploadEventFile == ''){  
+	  var uploadEventFile = $("#fileField").val();  
+      if(uploadEventFile == '' || null == uploadEventFile){  
           alert("请选择图片,再上传");  
-      }else if(uploadEventFile.lastIndexOf(".jpg")<0){
+      }else if(uploadEventFile.lastIndexOf(".jpg")<0 && uploadEventFile.lastIndexOf(".JPG")<0){
           alert("只能上传图片");  
       }else{
           var url = basePath+'/UserInfoMgrController/uploadUserPro.do';  

@@ -23,6 +23,18 @@
 			A.DELETE_FLAG = 0
 	</select>
 	
+	<select id="getPro" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.PORTRAIT
+		FROM 
+			H_USER A
+		WHERE 
+			A.UUID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
 	<!-- <insert id="impUsers" parameterType="java.util.Map">
 		INSERT INTO YONGHU
 		  (YONGHU_UUID,YONGHU_CODE,YONGHU_NAME,YONGHU_PASSWORD,YONGHU_NICKNAME)
