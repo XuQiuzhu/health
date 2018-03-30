@@ -3,7 +3,7 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="selfInfoMgr.userInfoMgr.dao.IHealthDataDao">
-	<!-- 销售单详情 -->
+	<!-- 健康数据列表 -->
 	<select id="getHealthData" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT
 			A.UUID,
@@ -12,7 +12,7 @@
 			A.LOWPRESSURE,
 			A.BLOODSUGAR,
 			A.BLOODLIPID,
-			A.highcholesterol,
+			A.HIGHCHOLESTEROL,
 			A.CHOLESTEROL,
 			A.TRIOXYPURINE,
 			A.TEMPERATURE,
@@ -27,6 +27,65 @@
 		AND
 			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
 		</if>
+		ORDER BY A.CREATETIME DESC
+	</select>
+	
+	<select id="getHealthDataCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_MONITOR A
+		WHERE 
+			A.USERID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!=""'>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+	</select>
+	
+	<select id="getOneHealthData" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.HEARTRATE,
+			A.HIGHPRESSURE,
+			A.LOWPRESSURE,
+			A.BLOODSUGAR,
+			A.BLOODLIPID,
+			A.HIGHCHOLESTEROL,
+			A.CHOLESTEROL,
+			A.TRIOXYPURINE,
+			A.TEMPERATURE,
+			DATE_FORMAT(A.CREATETIME, '%Y-%c-%d %H:%i:%s') AS CREATETIME
+		FROM 
+			H_MONITOR A
+		WHERE 
+			A.UUID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getChartsData" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+		A.HEARTRATE,
+			A.HIGHPRESSURE,
+			A.LOWPRESSURE,
+			A.BLOODSUGAR,
+			A.BLOODLIPID,
+			A.HIGHCHOLESTEROL,
+			A.CHOLESTEROL,
+			A.TRIOXYPURINE,
+			A.TEMPERATURE,
+			DATE_FORMAT(A.CREATETIME, '%Y-%c-%d %H:%i:%s') AS CREATETIME
+		FROM 
+			H_MONITOR A
+		WHERE 
+			A.USERID = #{USERID}
+		AND 
+			A.DELETE_FLAG = 0
+		ORDER BY A.CREATETIME DESC
+		LIMIT 15
 	</select>
 	
 	<insert id="addHealthData" parameterType="java.util.Map">
@@ -36,10 +95,27 @@
 		  (#{UUID},#{USERID},#{HEARTRATE},#{HIGHPRESSURE},#{LOWPRESSURE},#{BLOODSUGAR},#{BLOODLIPID},#{HIGHCHOLESTEROL},#{TRIOXYPURINE},#{CHOLESTEROL},#{TEMPERATURE},NOW(),NOW(),0)
 	</insert>
 	
-	<update id="uploadPic" parameterType="java.util.Map">
-		UPDATE YONGHU
-		SET	TOUXIANG_PATH = #{TOUXIANG_PATH},
-			TOUXIANG_NAME = #{TOUXIANG_NAME}	
-		WHERE YONGHU_CODE = #{YONGHU_CODE}
+	<update id="modifyHealthData" parameterType="java.util.Map">
+		UPDATE H_MONITOR
+		SET
+			HEARTRATE = #{HEARTRATE},
+			HIGHPRESSURE = #{HIGHPRESSURE},
+			LOWPRESSURE = #{LOWPRESSURE},
+			BLOODSUGAR = #{BLOODSUGAR},
+			BLOODLIPID = #{BLOODLIPID},
+			HIGHCHOLESTEROL = #{HIGHCHOLESTEROL},
+			CHOLESTEROL = #{CHOLESTEROL},
+			TRIOXYPURINE = #{TRIOXYPURINE},
+			TEMPERATURE	= #{TEMPERATURE},
+			UPDATETIME = NOW()
+		WHERE UUID = #{UUID}
 	</update>
+	
+	<update id="deleteHealthData" parameterType="java.util.Map">
+		UPDATE H_MONITOR
+		SET
+			DELETE_FLAG = 1
+		WHERE UUID = #{UUID}
+	</update>
+	
 </mapper>

@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 border-radius: 3px;
                 padding-left:5px;
                 margin-bottom:18px;
-                width: 25%;
+                width: 200%;
                 -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
                 box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
                 -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                border-radius: 3px;
 	                padding-left:5px;
 	                margin-bottom:18px;
-	                width: 25%;
+	                width: 200%;
 	                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 	                box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 	                -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     .login{
     				text-align:center;
-    				margin-top:10%;
+    				margin-top:3%;
 		    }   
     .subBtn{
     				background-color: white;
@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    padding: 15px 32px;
 				    text-align: center;
 				    text-decoration: none;
-				    width: 28%;
+				    width: 90%;
 				    display: inline-block;
 				    font-size: 16px;
 				    -webkit-transition-duration: 0.4s; /* Safari */
@@ -69,22 +69,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.register:hover {
 				    color: red;
 	}
+	
+	.infoTable tr{
+					text-align:center;
+	}
 </style>
 </head>
 <body>
 	<div class="login">
-		<form id="registerInfo">  
-		            手机号: <input type="text" name="PHONE" /><br />  
-		            昵称: <input type="text" name="NICKNAME" /><br />
-		            性别: <select class="gender" name="GENDER">
-					  <option value ="0">男</option>
-					  <option value ="1">女</option>
-					</select><br/>  
-			     邮箱: <input type="text" name="EMAIL" /><br />   
-		            密码: <input type="password" name="PASSWORD" /> <br />  
+		<form id="registerInfo" style="margin: 0 35%;">
+			<table class="infoTable">
+					<tr>
+						<td>手机号</td><td><input type="text" name="PHONE"/></td>
+					</tr>
+					<tr>
+						<td>昵称</td><td><input type="text" name="NICKNAME"/></td>
+					</tr>
+					<tr>
+						<td>性别</td><td><select class="gender" name="GENDER">
+						  <option value ="0">男</option>
+						  <option value ="1">女</option>
+						  </select>
+						</td>
+					</tr>
+					<tr>
+						<td>邮箱</td><td><input type="text" name="EMAIL"/></td>
+					</tr>
+					<tr>
+						<td>密码</td><td><input type="text" name="PASSWORD"/></td>
+					</tr>
+					<tr>
+						<td>真实姓名</td><td><input type="text" name="DOCNAME"/></td>
+					</tr>
+					<tr>
+						<td>年龄</td><td><input type="text" name="SELFAGE"/></td>
+					</tr>
+					<tr>
+						<td>医院</td><td><input type="text" name="HOSPITAL"/></td>
+					</tr>
+					<tr>
+						<td>科室</td><td><input type="text" name="DEPARTMENT"/></td>
+					</tr>
+				</table>  
 		    <input type="button" class="subBtn" onclick="register()" value="注册">                                    
 		</form>
-		<a onclick="" class="register" href="<%=basePath%>/userLoginController/toLoginPage.do">已有账号？点击登录</a>
+		<a onclick="" class="register" href="<%=basePath%>/docLoginController/toDocLoginPage.do">已有账号？点击登录</a>
 	</div>
 </body>
 <script type="text/javascript">
@@ -95,12 +124,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var data = ns.serializeObject(form);//获取表单所有的name值
 			$.ajax({
 				type : 'post',
-				url : basePath+'/userLoginController/register.do',
+				url : basePath+'/docLoginController/docRegister.do',
 				data :{"data":JSON.stringify(data)},
 				dataType : 'json',
 				success : function(result) {
 					$.messager.alert('提示','注册成功，返回登录！','info',function () {
-						window.location.href = "<%=basePath%>userLoginController/toLoginPage.do";
+						window.location.href = "<%=basePath%>/docLoginController/toDocLoginPage.do";
 			        });
 					
 				},error:function(){

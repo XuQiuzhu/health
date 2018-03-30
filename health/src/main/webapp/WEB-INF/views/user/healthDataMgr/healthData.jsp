@@ -14,20 +14,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div  class="easyui-panel" data-options="fit:true,border:false">
 
 	<div class="easyui-layout" data-options="fit:true">
-		<div data-options="region:'north',title:'条件过滤',collapsed:true" style="height:80px;overflow: hidden;">
+		<div data-options="region:'north',title:'条件过滤',collapsed:false" style="height:80px;">
 			<form id="searchHealthDataForm" style="margin-top: 10px;">
-			<table>
-				<tr>
-					<td>时间</td><td><input class="easyui-datebox" id="begin_createtime" name="BEGIN_CREATETIME"></input>至
-					<input class="easyui-datebox" id="end_createtime" name="END_CREATETIME"></input></td>
-					<td>
-						<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchUser()">过滤</a> 
-						<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchUser()">重置</a> 
-					</td>
+				<table>
+					<tr>
+						<td>时间</td><td><input class="easyui-datebox" id="begin_createtime" name="BEGIN_CREATETIME"></input>&nbsp;至&nbsp;
+						<input class="easyui-datebox" id="end_createtime" name="END_CREATETIME"></input></td>
+						<td>
+							<a  href="" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchUser()">过滤</a> 
+							<a  href="" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="resetSearch()">重置</a> 
+						</td>
+						
+					</tr>
 					
-				</tr>
-				
-			</table>
+				</table>
 		</form>
 			
 		</div>  
@@ -46,72 +46,85 @@ $(document).ready(function(){
 });
 
 function loadHealthData(){
-	healthDataGrid = $('#healthDataGrid').datagrid($.extend({
-        singleSelect : true,
-        striped:true,
-        loadMsg:"正在加载中......",
-        //idField:'jsDm',
-        url : basePath+'/HealthDataMgrController/getHealthData.do',
-        frozenColumns : [
-            [
-                {field : 'UUID', title : 'UUID', hidden : true},
-            ]
-        ],
-        columns : [
-            [
-                {field : 'HEARTRATE', title : '心率', width : 120},
-                {field : 'HIGHPRESSURE', title : '高压', width : 120},
-                {field : 'LOWPRESSURE', title : '低压', width : 120},
-                {field : 'BLOODSUGAR', title : '血糖', width : 120},
-                {field : 'BLOODLIPID', title : '血清甘油三酯', width : 120},
-                {field : 'highcholesterol', title : '高密度脂蛋白胆固醇', width : 120},
-                {field : 'CHOLESTEROL', title : '血清总胆固醇', width : 120},
-                {field : 'TRIOXYPURINE', title : '尿酸', width : 120},
-                {field : 'TEMPERATURE', title : '体温', width : 120},
-                {field : 'CREATETIME', title : '创建日期', width : 160}
-               
-            ]
-        ],
-        toolbar : [{
-            iconCls : 'icon-add',
-            text : '新增数据',
-            handler : function(){
-                showAddDataDialog();
-            }
-        },{
-            iconCls : 'icon-edit',
-            text : '编辑数据',
-            handler : function(){
-            	var select = roleGrid.datagrid('getSelections');//选择的角色
-            	
-                if(select && 1 == select.length){
-                	showModifyRoleDialog(select[0]);
-                }else{
-                    parent.$.messager.alert('错误', '请选择一条数据', 'error');
-                }
-            }
-        },{
-            iconCls : 'icon-remove',
-            text : '删除数据',
-            handler : function(){
-            	var select = roleGrid.datagrid('getSelections');//选择的角色
-            	
-                if(select){
-                	deleteRoles(select);
-                }else{
-                    parent.$.messager.alert('错误', '请选择一条数据', 'error');
-                }
-            }
-        }]
-
-    },ns.datagridOptions));
+	var form= $("#searchHealthDataForm");
+	var isValid = $(form).form('validate');	
+	if(isValid){
+		var data = {};
+		data = ns.serializeObject(form);
+		healthDataGrid = $('#healthDataGrid').datagrid($.extend({
+			pagination:true,
+			pageSize:10,
+	    	//pageList:[10,20,30,40,50],
+	        singleSelect : true,
+	        striped:true,
+	        loadMsg:"正在加载中......",
+	        //data :{"data":JSON.stringify(data)},
+	        //dataType : 'json',
+	        queryParams: { 'data': JSON.stringify(data) },
+	        url : basePath+'/HealthDataMgrController/getHealthData.do',
+	        frozenColumns : [
+	            [
+	                {field : 'UUID', title : 'UUID', hidden : true},
+	            ]
+	        ],
+	        columns : [
+	            [
+	                {field : 'HEARTRATE', title : '心率', width : 130},
+	                {field : 'HIGHPRESSURE', title : '高压', width : 130},
+	                {field : 'LOWPRESSURE', title : '低压', width : 130},
+	                {field : 'BLOODSUGAR', title : '血糖', width : 130},
+	                {field : 'BLOODLIPID', title : '血清甘油三酯', width : 130},
+	                {field : 'HIGHCHOLESTEROL', title : '高密度脂蛋白胆固醇', width : 130},
+	                {field : 'CHOLESTEROL', title : '血清总胆固醇', width : 130},
+	                {field : 'TRIOXYPURINE', title : '尿酸', width : 130},
+	                {field : 'TEMPERATURE', title : '体温', width : 128},
+	                {field : 'CREATETIME', title : '创建日期', width : 160}
+	               
+	            ]
+	        ],
+	        toolbar : [{
+	            iconCls : 'icon-add',
+	            text : '新增数据',
+	            handler : function(){
+	                showAddDataDialog();
+	            }
+	        },{
+	            iconCls : 'icon-edit',
+	            text : '编辑数据',
+	            handler : function(){
+	            	var select = healthDataGrid.datagrid('getSelections');
+	            	
+	                if(select && 1 == select.length){
+	                	showModifyDataDialog(select[0]);
+	                }else{
+	                    parent.$.messager.alert('错误', '请选择一条数据', 'error');
+	                }
+	            }
+	        },{
+	            iconCls : 'icon-remove',
+	            text : '删除数据',
+	            handler : function(){
+	            	var select = healthDataGrid.datagrid('getSelections');//选择的角色
+	            	if(select && 1 == select.length){
+	            		deleteData(select[0]);
+	                }else{
+	                    parent.$.messager.alert('错误', '请选择一条数据', 'error');
+	                }
+	            }
+	        }]
+	
+	    },ns.datagridOptions));
+	}
 }
 
 //根据时间搜索
 function searchUser(){
-	var form= $("#searchHealthDataForm");
-	var data = ns.serializeObject(form); 
-	userGrid.datagrid('load',data);
+	loadHealthData();
+}
+
+function resetSearch(){
+	$("#begin_createtime").val("");
+	$("#end_createtime").val("");
 }
 
 function showAddDataDialog(){
@@ -130,80 +143,39 @@ function showAddDataDialog(){
     });
 }
 
-function showModifyRoleDialog(select){
-	 var roleDialog =  parent.ns.modalDialog({
-         title : '编辑角色',
-         width : 340,
-         height : 300,
-         url : '${ct}/businessConsole/role/modifyRole.do?jsDm='+select.jsDm,
+function showModifyDataDialog(select){
+	 var modifyDataDialog =  parent.ns.modalDialog({
+         title : '编辑数据',
+         width : 550,
+         height : 380,
+         url : basePath+'/HealthDataMgrController/toModifyData.do?UUID='+select.UUID,
          buttons : [{
-             text : '保存',
+             text : '确定',
              iconCls : 'icon-save',
              handler : function(){
-                 roleDialog.find('iframe').get(0).contentWindow.submitRole(roleDialog,roleGrid,parent.$,select.jsDm);
+            	 modifyDataDialog.find('iframe').get(0).contentWindow.submitData(modifyDataDialog,healthDataGrid,parent.$,select.UUID);
              }
          }]
      });
 }
 
-
-function showMenuGrantToRoleDialog(selectRole){
-    var menuToRoleDialog =  parent.ns.modalDialog({
-        title : '菜单授权--' + selectRole.jsMc,
-        width : 340,
-        height : 300,
-        url : '${ct}/businessConsole/role/menuGrantToRole.do?roleId='+selectRole.jsDm,
-        buttons : [{
-            text : '授权',
-            iconCls : 'icon-save',
-            handler : function(){
-                menuToRoleDialog.find('iframe').get(0).contentWindow.submitMenuToRole(menuToRoleDialog,parent.$);
-            }
-        }]
-
-    });
-}
-
-function showUserGrantToRoleDialog(selectRole){
-    var userToRoleDialog =  parent.ns.modalDialog({
-        title : '用户授权--' + selectRole.jsMc,
-        width : 860,
-        height : 390,
-        url : '${ct}/businessConsole/role/userGrantToRole.do?roleId='+selectRole.jsDm,
-        buttons : [{
-            text : '授权',
-            iconCls : 'icon-save',
-            handler : function(){
-                userToRoleDialog.find('iframe').get(0).contentWindow.submitUserToRole(userToRoleDialog,parent.$);
-            }
-        }]
-
-    });
-}
-
-function deleteRoles(checkRoles){
-	$.messager.confirm('确认','确认删除角色?',function(r){  
-	    if (r){  
-	     	var roleDms = [];
-	     	for(var i =0 ;i <checkRoles.length;i++ ){
-	    		
-	     		roleDms.push(checkRoles[i].jsDm);
-	     	}
-	     	
+function deleteData(select){
+	$.messager.confirm('确认','确认删除数据?',function(r){  
+	    if (r){ 
 	     	var data = {};
-	     	data.roleDms = roleDms.join(',');
-	     	
+	     	data.UUID = select.UUID;
+	     	//console.info(select.UUID);
 			$.ajax({
 	                type : 'post',
-	                url : '${ct}/businessConsole/role/deleteRoles.do',
-	                data :data,
+	                url : '${ct}/HealthDataMgrController/deleteData.do',
+	                data :{"data":JSON.stringify(data)},
 	                dataType : 'json',
 	                success : function(result) {
 	                    if(result.success){
-	                    	roleGrid.datagrid('clearSelections').datagrid('clearChecked');
-	                    	roleGrid.datagrid('reload');
+	                    	healthDataGrid.datagrid('clearSelections').datagrid('clearChecked');
+	                    	healthDataGrid.datagrid('reload');
 	                    }else{
-	                       parent.$.messager.alert('错误','删除用户失败','error');
+	                       parent.$.messager.alert('错误','删除数据失败','error');
 	                    }
 	                }
 			});

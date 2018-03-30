@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</div>
   	<div>
   		<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">管理员</a>
-	  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">医生</a>
+	  	<a class="button" type="button" onclick="" href="<%=basePath%>docLoginController/toDocLoginPage.do">医生</a>
 	  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">普通用户</a>
   	</div>
   </div> 

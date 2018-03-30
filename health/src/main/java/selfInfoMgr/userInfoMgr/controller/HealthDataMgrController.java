@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import base.controller.BaseController;
 import base.exception.IServiceException;
+import base.model.Grid;
 import selfInfoMgr.userInfoMgr.service.IHealthdataService;
 
 @Controller
@@ -42,12 +43,14 @@ public class HealthDataMgrController  extends BaseController{
 	 */
 	@RequestMapping("/getHealthData")
 	public void getHealthData(HttpServletRequest request,HttpServletResponse response) {
-		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		Grid<Map<String, Object>> result = new Grid<Map<String,Object>>();
 		String data = request.getParameter("data");
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, String> param = new HashMap<String, String>();
 		if(null != data && !"".equals(data)) {
 			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
 		}
+		param.put("page", request.getParameter("page"));
+		param.put("rows", request.getParameter("rows"));
 		try{
 		result = healthDataService.getHealthData(param);
 		} catch (Exception e) {
@@ -77,5 +80,86 @@ public class HealthDataMgrController  extends BaseController{
 				throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
 			}
 			printHttpServletResponse(new Gson().toJson(result),response);
+	}
+	
+	@RequestMapping("/toModifyData")
+	public String toModifyData(HttpServletRequest request) {
+		String UUID = request.getParameter("UUID");
+		Map<String, String> result = new HashMap<String,String>();
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("UUID", UUID);
+		try{
+			result = healthDataService.getOneHealthData(param);
+		}
+		catch (Exception e) {
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		request.setAttribute("healthData", result);
+		return "user/healthDataMgr/modifyData";
+	}
+	
+	@RequestMapping("/modifyData")
+	public void modifyData(HttpServletRequest request,HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String,Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		String data = request.getParameter("data");
+		if(null != data && !"".equals(data)) {
+			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		}
+		try{
+			healthDataService.modifyHealthData(param);
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		printHttpServletResponse(new Gson().toJson(result),response);
+	}
+	
+	@RequestMapping("/deleteData")
+	public void deleteData(HttpServletRequest request,HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String,Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		String data = request.getParameter("data");
+		if(null != data && !"".equals(data)) {
+			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		}
+		try{
+			healthDataService.deleteHealthData(param);
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		printHttpServletResponse(new Gson().toJson(result),response);
+	}
+	
+	/**
+	 * 跳转到图表显示数据页面
+	 * @return
+	 */
+	@RequestMapping("/toUserDataChartsPage")
+	public String toUserDataChartsPage() {
+		return "user/healthDataMgr/dataCharts";
+	}
+	
+	@RequestMapping("/getChartsData")
+	public void getChartsData(HttpServletRequest request,HttpServletResponse response) {
+		Map<String, String> param = new HashMap<String,String>();
+		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+		Map<String, Object> result = new HashMap<String, Object>();
+		String data = request.getParameter("data");
+		if(null != data && !"".equals(data)) {
+			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		}
+		try{
+			resultList = healthDataService.getChartsData(param);
+			result.put("resultList", resultList);
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		printHttpServletResponse(new Gson().toJson(result),response);
 	}
 }

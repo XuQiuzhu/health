@@ -2,27 +2,28 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="bussinessConsole.userLogin.dao.UserLoginDao">
-	<select id="userLogin" parameterType="java.util.Map" resultType="java.util.HashMap">
+<mapper namespace="bussinessConsole.docLogin.dao.IDocLoginDao">
+
+	<select id="docLogin" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT
 			A.UUID,
-			A.USERID,
+			A.DOCID,
 			A.PHONE,
 			A.EMAIL,
 			A.PASSWORD
 		FROM 
-			H_USER A
+			H_DOC A
 		WHERE 
 			A.PHONE = #{PHONE}
 		AND 
 			A.DELETE_FLAG = 0
 	</select>
 	
-	<insert id="register" parameterType="java.util.Map">
-		INSERT INTO H_USER
-		  (UUID,NICKNAME,PHONE,IDENTITY,GENDER,PASSWORD,EMAIL,CREATETIME,DELETE_FLAG,UPDATER,UPDATETIME)
+	<insert id="docRegister" parameterType="java.util.Map">
+		INSERT INTO H_DOC
+		  (UUID,NICKNAME,PHONE,IDENTITY,GENDER,PASSWORD,EMAIL,DOCNAME,SELFAGE,HOSPITAL,DEPARTMENT,CREATETIME,DELETE_FLAG)
 		VALUES
-		  (#{UUID},#{NICKNAME},#{PHONE},1,#{GENDER},#{PASSWORD},#{EMAIL},NOW(),0,'',NOW())
+		  (#{UUID},#{NICKNAME},#{PHONE},2,#{GENDER},#{PASSWORD},#{EMAIL},#{DOCNAME},#{SELFAGE},#{HOSPITAL},#{DEPARTMENT},NOW(),0)
 	</insert>
 	
 	<!-- <update id="uploadPic" parameterType="java.util.Map">

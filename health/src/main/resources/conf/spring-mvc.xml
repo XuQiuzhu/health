@@ -34,11 +34,22 @@
                       <value>toRegisterPage.do</value>
                       <value>register.do</value>
                       <value>Login.do</value>
+                      <value>toDocLoginPage.do</value>
+                      <value>toDocRegisterPage.do</value>
+                      <value>docLogin.do</value>
+                      <value>docRegister.do</value>
                     </list>      
                 </property>      
             </bean>    
         </mvc:interceptor>    
-    </mvc:interceptors>   
+    </mvc:interceptors> 
+    <!-- 分页拦截器 -->
+     <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="base.interceptor.PageInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>  
     <!-- exception handler 统一异常处理-->    
     <!-- <bean id="handlerExceptionResolver"    
      class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" >    

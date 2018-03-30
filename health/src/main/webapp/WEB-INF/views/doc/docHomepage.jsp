@@ -17,21 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div region="west" split="true" title="菜单" style="width:12%;">
 			<div title="菜单">
 				<ul id="meunTree" class="easyui-tree">
-					<!-- <li>
-						<span>菜单</span>
-						<ul>
-							<li>
-								<span>Sub Folder 1</span>
-								<ul>
-									<li><span>File 11</span></li>
-									<li><span>File 12</span></li>
-									<li><span>File 13</span></li>
-								</ul>
-							</li>
-							<li><span>File 2</span></li>
-							<li><span>File 3</span></li>
-						</ul>
-					</li> -->
 					<li>
 						<span>信息管理</span>
 						<ul>
@@ -44,14 +29,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<ul>
 							<li><a onclick="addTab('健康数据','<%=basePath%>HealthDataMgrController/toHealdataPage.do')">健康数据</a></li>
 							<li><a onclick="addTab('图表查看','<%=basePath%>HealthDataMgrController/toUserDataChartsPage.do')">图表查看</a></li>
-						</ul>
-					</li>
-					<li>
-						<span>线上诊断</span>
-						<ul>
-							<li><a onclick="addTab('医生列表','<%=basePath%>HealthDataMgrController/toHealdataPage.do')">医生列表</a></li>
-							<li><a onclick="addTab('预约历史','<%=basePath%>HealthDataMgrController/toUserDataChartsPage.do')">预约历史</a></li>
-							<li><a onclick="addTab('诊断历史','<%=basePath%>HealthDataMgrController/toUserDataChartsPage.do')">诊断历史</a></li>
 						</ul>
 					</li>
 				</ul>
