@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="treatDisease.userBespeak.dao.IUserChooseDocDao">
+
+	<select id="getAllDepartment" resultType="java.util.HashMap">
+		SELECT
+			A.DEP_CODE,
+			A.DEP_NAME
+		FROM 
+			H_DOC_DEPARTMENT A
+		WHERE 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getAllDocs" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DOCID,
+			A.DOCNAME,
+			A.NICKNAME,
+			A.PHONE,
+			A.GENDER,
+			A.SELFAGE,
+			A.EMAIL,
+			A.PORTRAIT,
+			A.TIP,
+			B.DEP_NAME AS DEPARTMENT,
+			A.HOSPITAL,
+			A.LEVEL
+		FROM 
+			H_DOC A LEFT JOIN H_DOC_DEPARTMENT B ON A.DEPARTMENT = B.DEP_CODE
+		WHERE 
+			A.DELETE_FLAG = 0
+		<if test='LEVEL_BEGIN!=NULL and LEVEL_BEGIN!="" and LEVEL_END!=NULL and LEVEL_END!="" '>
+		AND
+			A.level BETWEEN #{LEVEL_BEGIN} AND #{LEVEL_END}
+		</if>
+		<if test='DEPARTMENT!=NULL and DEPARTMENT!="" '>
+		AND
+			A.DEPARTMENT = #{DEPARTMENT}
+		</if>
+	</select>
+	<select id="getAllDocsCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_DOC A
+		WHERE 
+			A.DELETE_FLAG = 0
+		<if test='LEVEL_BEGIN!=NULL and LEVEL_BEGIN!="" and LEVEL_END!=NULL and LEVEL_END!="" '>
+		AND
+			A.level BETWEEN #{LEVEL_BEGIN} AND #{LEVEL_END}
+		</if>
+		<if test='DEPARTMENT!=NULL and DEPARTMENT!="" '>
+		AND
+			A.DEPARTMENT = #{DEPARTMENT}
+		</if>
+	</select>
+	<select id="getOneDocInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.DOCNAME
+		FROM 
+			H_DOC A
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND A.UUID = #{UUID}
+	</select>
+	
+	<select id="getSubscribeHis" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.DOCNAME,
+			C.DEP_NAME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.USERID = #{UUID}
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!=""'>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='DOCNAME!=NULL and DOCNAME!="" '>
+		AND
+			B.DOCNAME LIKE  "%"#{DOCNAME}"%"
+		</if>
+		<if test='TYPE=="submited" '>
+		AND
+			A.DIAGNOSE_STATUS = 0
+		</if>
+		<if test='TYPE=="waitDiagnose" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+		<if test='TYPE=="waitJudge" '>
+		AND
+			A.DIAGNOSE_STATUS = 3
+		</if>
+		<if test='TYPE=="judged" '>
+		AND
+			A.DIAGNOSE_STATUS = 4
+		</if>
+		<if test='TYPE=="refused" '>
+		AND
+			A.DIAGNOSE_STATUS = 1
+		</if>
+	</select>
+	<select id="getSubscribeHisCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.USERID = #{UUID}
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!=""'>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='DOCNAME!=NULL and DOCNAME!="" '>
+		AND
+			B.DOCNAME LIKE  "%"#{DOCNAME}"%"
+		</if>
+		<if test='TYPE=="submited" '>
+		AND
+			A.DIAGNOSE_STATUS = 0
+		</if>
+		<if test='TYPE=="waitDiagnose" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+		<if test='TYPE=="waitJudge" '>
+		AND
+			A.DIAGNOSE_STATUS = 3
+		</if>
+		<if test='TYPE=="judged" '>
+		AND
+			A.DIAGNOSE_STATUS = 4
+		</if>
+		<if test='TYPE=="refused" '>
+		AND
+			A.DIAGNOSE_STATUS = 1
+		</if>
+	</select>
+	
+	<select id="getOneSubscribe" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.DOCNAME,
+			B.UUID AS DOCUUID,
+			C.DEP_NAME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.UUID = #{UUID}
+	</select>
+	
+	<select id="getDiagnoseDetail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			A.CONTENT,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.UUID AS DOCUUID,
+			B.DOCNAME,
+			C.DEP_NAME
+		FROM 
+			H_DIAGNOSE A LEFT JOIN H_DOC_DEPARTMENT C ON A.DISEASETYPE_CODE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.SUBSCRIBEID = #{UUID}
+	</select>
+	
+	<insert id="buildReservation" parameterType="java.util.Map">
+		INSERT INTO H_SUBSCRIBE
+		  (UUID,USERID,DOCID,TYPE,DESCRIPTION,CREATETIME,DIAGNOSE_STATUS,DELETE_FLAG)
+		VALUES(#{UUID},#{userUUID},#{docUUID},#{TYPE},#{DESCRIPTION},NOW(),0,0)
+	</insert>
+	<insert id="addFeedback" parameterType="java.util.Map">
+		INSERT INTO H_FEEDBACK
+		  (UUID,USERID,DOCID,SUBSCRIBEID,COMMENT,SATISFACTION,CREATETIME)
+		VALUES(#{UUID},#{USERID},#{DOCID},#{SUBSCRIBEID},#{COMMENT},SATISFACTION，NOW())
+	</insert>
+	<update id="updateSubscribe" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DESCRIPTION = #{DESCRIPTION}
+		WHERE UUID = #{UUID}
+	</update>
+	<update id="modifySub" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DIAGNOSE_STATUS = 4,
+		WHERE UUID = #{SUBSCRIBEID}
+	</update>
+	<update id="deleteSub" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DELETE_FLAG = 1
+		WHERE UUID = #{UUID}
+	</update>
+	
+</mapper>

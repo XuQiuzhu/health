@@ -44,12 +44,12 @@
         </mvc:interceptor>    
     </mvc:interceptors> 
     <!-- 分页拦截器 -->
-     <mvc:interceptors>
+     <!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<bean class="base.interceptor.PageInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>  
+	</mvc:interceptors>  --> 
     <!-- exception handler 统一异常处理-->    
     <!-- <bean id="handlerExceptionResolver"    
      class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" >    

@@ -24,9 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a  href="" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchUser()">过滤</a> 
 							<a  href="" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="resetSearch()">重置</a> 
 						</td>
-						
 					</tr>
-					
 				</table>
 		</form>
 			
