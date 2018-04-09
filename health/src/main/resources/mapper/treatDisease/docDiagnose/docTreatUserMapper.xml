@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="treatDisease.docDiagnose.dao.IDocTreatUserDao">
+
+	<select id="getSubscribeReq" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.USERID,
+			B.USERNAME,
+			C.DEP_NAME,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_USER B
+		WHERE
+			A.USERID = B.UUID 
+		AND
+			A.DOCID = #{DOCUUID}
+		<if test='TYPE==NULL'>
+		AND 
+			A.DIAGNOSE_STATUS = 0
+		</if>
+		AND
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!="" '>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='USERNAME!=NULL and USERNAME!="" '>
+		AND
+			B.USERNAME = #{USERNAME}
+		</if>
+		<if test='TYPE=="treat" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+		ORDER BY A.CREATETIME ASC
+	</select>
+	<select id="getSubscribeReqCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_USER B
+		WHERE
+			A.USERID = B.UUID 
+		AND
+			A.DOCID = #{DOCUUID}
+		AND 
+			A.DIAGNOSE_STATUS = 0
+		AND
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!="" '>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='USERNAME!=NULL and USERNAME!="" '>
+		AND
+			B.USERNAME = #{USERNAME}
+		</if>
+		<if test='TYPE=="treat" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+	</select>
+	<select id="getOneSub" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.USERID,
+			A.DOCID,
+			A.TYPE AS DISEASETYPE_CODE,
+			B.USERNAME,
+			C.DEP_NAME,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_USER B
+		WHERE
+			A.UUID = #{UUID}
+		AND
+			A.USERID = B.UUID
+	</select>
+	<select id="getDiseasetype" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DISEASETYPE_CODE,
+			A.DISEASETYPE_NAME
+		FROM 
+			H_DISEASETYPE A 
+	</select>
+	<!-- <select id="getOneDocInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.DOCNAME
+		FROM 
+			H_DOC A
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND A.UUID = #{UUID}
+	</select>
+	
+	<select id="getSubscribeHis" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.DOCNAME,
+			C.DEP_NAME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.USERID = #{UUID}
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!=""'>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='DOCNAME!=NULL and DOCNAME!="" '>
+		AND
+			B.DOCNAME LIKE  "%"#{DOCNAME}"%"
+		</if>
+		<if test='TYPE=="submited" '>
+		AND
+			A.DIAGNOSE_STATUS = 0
+		</if>
+		<if test='TYPE=="waitDiagnose" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+		<if test='TYPE=="waitJudge" '>
+		AND
+			A.DIAGNOSE_STATUS = 3
+		</if>
+		<if test='TYPE=="judged" '>
+		AND
+			A.DIAGNOSE_STATUS = 4
+		</if>
+		<if test='TYPE=="refused" '>
+		AND
+			A.DIAGNOSE_STATUS = 1
+		</if>
+	</select>
+	<select id="getSubscribeHisCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.USERID = #{UUID}
+		<if test='BEGIN_CREATETIME!=NULL and BEGIN_CREATETIME!="" and END_CREATETIME!=NULL and END_CREATETIME!=""'>
+		AND
+			A.CREATETIME BETWEEN #{BEGIN_CREATETIME} AND #{END_CREATETIME}
+		</if>
+		<if test='DOCNAME!=NULL and DOCNAME!="" '>
+		AND
+			B.DOCNAME LIKE  "%"#{DOCNAME}"%"
+		</if>
+		<if test='TYPE=="submited" '>
+		AND
+			A.DIAGNOSE_STATUS = 0
+		</if>
+		<if test='TYPE=="waitDiagnose" '>
+		AND
+			A.DIAGNOSE_STATUS = 2
+		</if>
+		<if test='TYPE=="waitJudge" '>
+		AND
+			A.DIAGNOSE_STATUS = 3
+		</if>
+		<if test='TYPE=="judged" '>
+		AND
+			A.DIAGNOSE_STATUS = 4
+		</if>
+		<if test='TYPE=="refused" '>
+		AND
+			A.DIAGNOSE_STATUS = 1
+		</if>
+	</select>
+	
+	<select id="getOneSubscribe" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.DOCNAME,
+			B.UUID AS DOCUUID,
+			C.DEP_NAME
+		FROM 
+			H_SUBSCRIBE A LEFT JOIN H_DOC_DEPARTMENT C ON A.TYPE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.UUID = #{UUID}
+	</select>
+	
+	<select id="getDiagnoseDetail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			A.UUID,
+			A.DESCRIPTION,
+			A.CONTENT,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			B.UUID AS DOCUUID,
+			B.DOCNAME,
+			C.DEP_NAME
+		FROM 
+			H_DIAGNOSE A LEFT JOIN H_DOC_DEPARTMENT C ON A.DISEASETYPE_CODE = C.DEP_CODE,
+			H_DOC B
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+		AND
+			A.DOCID = B.UUID
+		AND A.SUBSCRIBEID = #{UUID}
+	</select> -->
+	
+	<insert id="docDoTreat" parameterType="java.util.Map">
+		INSERT INTO H_DIAGNOSE
+		  (UUID,USERID,DOCID,SUBSCRIBEID,DESCRIPTION,CONTENT,DISEASETYPE_CODE,CREATETIME)
+		VALUES(#{UUID},#{USERID},#{DOCID},#{SUBSCRIBEID},#{DESCRIPTION},#{CONTENT},#{DISEASETYPE_CODE},NOW())
+	</insert>
+	<!--<insert id="addFeedback" parameterType="java.util.Map">
+		INSERT INTO H_FEEDBACK
+		  (UUID,USERID,DOCID,SUBSCRIBEID,COMMENT,SATISFACTION,CREATETIME)
+		VALUES(#{UUID},#{USERID},#{DOCID},#{SUBSCRIBEID},#{COMMENT},SATISFACTION，NOW())
+	</insert>
+	<update id="updateSubscribe" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DESCRIPTION = #{DESCRIPTION}
+		WHERE UUID = #{UUID}
+	</update> -->
+	<update id="modifySubTreatStu" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DIAGNOSE_STATUS = 3
+		WHERE UUID = #{SUBSCRIBEID}
+	</update>
+	<update id="manageSubscribe" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		<if test='type=="receive" '>
+			SET	DIAGNOSE_STATUS = 2
+		</if>
+		<if test='type=="refuse" '>
+			SET	DIAGNOSE_STATUS = 1
+		</if>
+		WHERE UUID = #{UUID}
+	</update>
+	
+</mapper>

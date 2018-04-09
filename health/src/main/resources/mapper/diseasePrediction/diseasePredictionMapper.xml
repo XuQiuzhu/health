@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="diseasePrediction.dao.IDiseasePredictionDao">
+	<!-- 数据总条数 -->
+	<select id="getAllDiseaseCount" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_DIAGNOSE A
+	</select>
+	
+	<!-- 已出现的所有疾病类型 -->
+	<select id="getEachDiseaseKind" resultType="java.util.Map">
+		SELECT DISTINCT 
+			A.DISEASETYPE_CODE,
+			B.DISEASETYPE_NAME
+		FROM 
+			H_DIAGNOSE A,
+			H_DISEASETYPE B
+		WHERE A.DISEASETYPE_CODE = B.DISEASETYPE_CODE
+	</select>
+	
+	<!-- 每种疾病类型出现的次数 -->
+	<select id="getEachDiseaseCount" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM 
+			H_DIAGNOSE A
+		WHERE
+			A.DISEASETYPE_CODE = #{DISEASETYPE_CODE}
+	</select>
+	
+	<!-- 出现相似症状描述的数据条数/在某个疾病类型条件下出现相似症状描述的数据条数 -->
+	<select id="getSymptomCount" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			COUNT(1)
+		FROM 
+			H_DIAGNOSE A
+		WHERE
+			A.DESCRIPTION LIKE  "%"#{SYMPTOM}"%"
+		<if test='CONDITION!=NULL and CONDITION!="" '>
+		AND
+			A.DISEASETYPE_CODE = #{DISEASETYPE_CODE}
+		</if>
+	</select>
+</mapper>

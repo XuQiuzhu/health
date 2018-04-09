@@ -69,7 +69,7 @@ function showCharts(type){
             		yTittle = "心率(次/分钟)"
 	            	for(var p in resultList){//遍历json数组时，这么写p为索引，0,1
 	            			a[resultLength-p-1] = resultList[p].HEARTRATE;
-	            			console.info(resultList[p].HEARTRATE);
+	            			//console.info(resultList[p].HEARTRATE);
 	            	}
             	}
             	if(type == "highpressure"){
@@ -120,6 +120,7 @@ function showCharts(type){
 	            			a[resultLength-p-1] = resultList[p].TEMPERATURE;
 	            	}
             	}
+            	//console.info(a);
             	draw(a,yTittle);
 
             }else{
@@ -132,20 +133,20 @@ function draw(a,yTittle){
 	var chart = Highcharts.chart('container', {
 	    chart: {
 	        type: 'line'
-	    },
+	    },//图表类型
 	    title: {
 	        text: '近十五次数据变化情况'
-	    },
+	    },//图表标题
 	    subtitle: {
 	        text: '数据来源: 个人健康助手'
-	    },
+	    },//副标题
 	    xAxis: {
 	        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12','13', '14','今天']
-	    },
+	    },//x轴文字
 	    yAxis: {
 	        title: {
 	            text: yTittle
-	        }
+	        }//y轴标题
 	    },
 	    plotOptions: {
 	        line: {
@@ -158,7 +159,7 @@ function draw(a,yTittle){
 	    series: [{
 	        name: '',
 	        data: a
-	    }]
+	    }]//数据
 	});
 }
 </script>

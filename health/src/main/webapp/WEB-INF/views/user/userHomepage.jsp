@@ -54,6 +54,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<%-- <li><a onclick="addTab('诊断历史','<%=basePath%>HealthDataMgrController/toUserDataChartsPage.do')">诊断历史</a></li> --%>
 						</ul>
 					</li>
+					<li>
+						<span>疾病预测</span>
+						<ul>
+							<li><a onclick="addTab('自助预测','<%=basePath%>DiseasePredictionController/toDiseasePredictionPage.do')">自助预测</a></li>
+							<%-- <li><a onclick="addTab('预约历史','<%=basePath%>UserChooseDocController/toSubscribeHis.do')">预约历史</a></li> --%>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>

@@ -17,18 +17,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div region="west" split="true" title="菜单" style="width:12%;">
 			<div title="菜单">
 				<ul id="meunTree" class="easyui-tree">
-					<li>
+					<%-- <li>
 						<span>信息管理</span>
 						<ul>
 							<li><a onclick="addTab('信息管理','<%=basePath%>UserInfoMgrController/toUserInfoCheckPage.do')">信息管理</a></li>
 							<li><a onclick="addTab('头像管理','<%=basePath%>UserInfoMgrController/toUserPortraitMgrPage.do')">头像管理</a></li>
 						</ul>
-					</li>
+					</li> --%>
 					<li>
 						<span>健康数据</span>
 						<ul>
-							<li><a onclick="addTab('健康数据','<%=basePath%>HealthDataMgrController/toHealdataPage.do')">健康数据</a></li>
-							<li><a onclick="addTab('图表查看','<%=basePath%>HealthDataMgrController/toUserDataChartsPage.do')">图表查看</a></li>
+							<li><a onclick="addTab('预约请求','<%=basePath%>docTreatUserController/toSubscribeReqPage.do')">预约请求</a></li>
+							<li><a onclick="addTab('诊断','<%=basePath%>docTreatUserController/doTreat.do')">诊断</a></li>
+							<li><a onclick="addTab('诊断历史','<%=basePath%>docTreatUserController/toUserDataChartsPage.do')">诊断历史</a></li>
 						</ul>
 					</li>
 				</ul>
