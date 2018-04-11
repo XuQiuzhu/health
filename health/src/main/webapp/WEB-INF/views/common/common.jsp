@@ -8,6 +8,7 @@
 <script src="${ct}/plugin/jquery-easyui-1.5.4.2/locale/easyui-lang-zh_CN.js"></script>
 <script src="${ct}/plugin/Highcharts-6.0.7/code/highcharts.js"></script>
 <link rel="stylesheet" href="${ct}/plugin/jquery-easyui-1.5.4.2/themes/gray/easyui.css" id="swicth-style">
+<%-- <link rel="stylesheet" href="${ct}/plugin/jquery-easyui-1.5.4.2/themes/pure-blue/easyui.css" id="swicth-style"> --%>
 <%-- <link rel="stylesheet" href="${ct}/businessConsole/css/style.css"> --%>
 
 

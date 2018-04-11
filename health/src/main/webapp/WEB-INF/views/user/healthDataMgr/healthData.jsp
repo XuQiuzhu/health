@@ -109,6 +109,18 @@ function loadHealthData(){
 	                    parent.$.messager.alert('错误', '请选择一条数据', 'error');
 	                }
 	            }
+	        },{
+	            iconCls : 'icon-excel',
+	            text : '批量导入',
+	            handler : function(){
+	            		deleteData(select[0]);
+	            }
+	        },{
+	            iconCls : 'icon-excel',
+	            text : '导入模板下载',
+	            handler : function(){
+	            	showExport();
+	            }
 	        }]
 	
 	    },ns.datagridOptions));
@@ -179,6 +191,32 @@ function deleteData(select){
 			});
 	    }  
 	}); 
+}
+
+
+/**
+ * 导出Excel模板
+ */
+function showExport(){
+	//pageNum=0;
+	//var aduitStauts = $("#FLAG").combobox("getValue");
+	//var pageName="信息导入模板.zip";
+	//var datas = {"dep":dep,"PROPOSAL_NO":PROPOSAL_NO,"PROPOSAL_CATE":PROPOSAL_CATE,"filepath":filepath,"PROCESS_NO":PROCESS_NO,"TASK_NO":TASK_NO};
+	$.ajax({
+		  type : 'post',
+		  url:'${ct}/ImpExcel/ExportModelExcel.do',
+		  //data :{'data':JSON.stringify(datas)},
+		  //dataType : 'json',
+		  success : function(data) {
+			   data = eval('(' + data + ')');
+			   console.info(data);
+			   if (data.success) {
+				     window.location.href = basePath+'/ImpExcel/downloadTask.do?filepath='+ data.msg;
+			   } else {
+				   parent.$.messager.alert('错误',data.msg,'error');
+			   }
+		   }
+	 }); 
 }
 </script>
 </html>

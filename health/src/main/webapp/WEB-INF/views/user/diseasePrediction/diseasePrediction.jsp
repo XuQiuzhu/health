@@ -61,7 +61,7 @@ function doPrediction(symptom){
             if(result.success){
             	$("#container").html("");//清空info内容
             	var resultList = result.forecastResult;
-            	console.info(resultList);
+            	//console.info(resultList);
             	if(resultList != null){
             		var resultLength = resultList.length;
             		var a = new Array(resultLength);
