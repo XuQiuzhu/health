@@ -56,4 +56,9 @@ public class UserLoginServiceImpl implements IUserLoginService {
 		}
 	}
 
+	@Override
+	public void loginOut() {
+		session.removeAttribute(GlobalConstant.LOGIN_USER);
+	}
+
 }

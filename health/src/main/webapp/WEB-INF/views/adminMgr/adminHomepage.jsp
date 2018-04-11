@@ -40,19 +40,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div region="west" split="true" title="菜单" style="width:12%;">
 			<div title="菜单">
 				<ul id="meunTree" class="easyui-tree">
-					 <li>
-						<span>信息管理</span>
+					<!-- <li>
+						<span>菜单</span>
 						<ul>
-							<li><a onclick="addTab('信息管理','<%=basePath%>DocInfoMgrController/toDocInfoCheckPage.do')">信息管理</a></li>
-							<%-- <li><a onclick="addTab('头像管理','<%=basePath%>UserInfoMgrController/toUserPortraitMgrPage.do')">头像管理</a></li> --%>
+							<li>
+								<span>Sub Folder 1</span>
+								<ul>
+									<li><span>File 11</span></li>
+									<li><span>File 12</span></li>
+									<li><span>File 13</span></li>
+								</ul>
+							</li>
+							<li><span>File 2</span></li>
+							<li><span>File 3</span></li>
+						</ul>
+					</li> -->
+					<li>
+						<span>知识库管理</span>
+						<ul>
+							<li><a onclick="addTab('知识库管理','<%=basePath%>knowledgeBaseMgr/toKnowledgeBaseMgrPage.do')">知识库管理</a></li>
 						</ul>
 					</li>
 					<li>
-						<span>健康数据</span>
+						<span>综合数据图表</span>
 						<ul>
-							<li><a onclick="addTab('预约请求','<%=basePath%>docTreatUserController/toSubscribeReqPage.do')">预约请求</a></li>
-							<li><a onclick="addTab('诊断','<%=basePath%>docTreatUserController/doTreat.do')">诊断</a></li>
-							<li><a onclick="addTab('诊断历史','<%=basePath%>docTreatUserController/toUserDataChartsPage.do')">诊断历史</a></li>
+							<li><a onclick="addTab('','<%=basePath%>')"></a></li>
+							<li><a onclick="addTab('','<%=basePath%>')"></a></li>
+						</ul>
+					</li>
+					<li>
+						<span>设置推送</span>
+						<ul>
+							<li><a onclick="addTab('新建推送','<%=basePath%>.do')">新建推送</a></li>
+							<li><a onclick="addTab('推送历史','<%=basePath%>.do')">推送历史</a></li>
 						</ul>
 					</li>
 				</ul>

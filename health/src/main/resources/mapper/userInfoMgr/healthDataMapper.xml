@@ -118,4 +118,28 @@
 		WHERE UUID = #{UUID}
 	</update>
 	
+	<!-- 批量导入 -->
+	<insert id="excelImpDatas" parameterType="java.util.List">
+		INSERT INTO H_MONITOR
+		  (UUID,USERID,HEARTRATE,HIGHPRESSURE,LOWPRESSURE,BLOODSUGAR,BLOODLIPID,HIGHCHOLESTEROL,CHOLESTEROL,TRIOXYPURINE,TEMPERATURE,CREATETIME,UPDATETIME,DELETE_FLAG)
+		<foreach open="(" close=")" collection="list" item="item" index="index" separator="UNION">
+		 SELECT 
+		        #{item.UUID,jdbcType=VARCHAR},
+				#{item.USERID,jdbcType=VARCHAR},
+				#{item.HEARTRATE,jdbcType=INTEGER},
+				#{item.HIGHPRESSURE,jdbcType=DOUBLE},
+				#{item.LOWPRESSURE,jdbcType=DOUBLE},
+				#{item.BLOODSUGAR,jdbcType=DOUBLE},
+				#{item.BLOODLIPID,jdbcType=DOUBLE},
+				#{item.HIGHCHOLESTEROL,jdbcType=DOUBLE},
+				#{item.CHOLESTEROL,jdbcType=DOUBLE},
+				#{item.TRIOXYPURINE,jdbcType=INTEGER},
+				#{item.TEMPERATURE,jdbcType=VARCHAR},
+				DATE_FORMAT(#{item.CREATETIME,jdbcType=DATE}, '%Y-%c-%d %H:%i:%s'),
+				DATE_FORMAT(#{item.CREATETIME,jdbcType=DATE}, '%Y-%c-%d %H:%i:%s'),
+				0
+		     FROM dual
+		  </foreach>
+	</insert>
+	
 </mapper>

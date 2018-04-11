@@ -69,4 +69,14 @@ public class UserLoginController extends BaseController{
 	public String toUserHomepage() {
 		return "user/userHomepage";
 	}
+	
+	/**
+	 * 用户退出
+	 * @return
+	 */
+	@RequestMapping("/loginout")
+	public String loginout() {
+		userLoginService.loginOut();
+		return "index";
+	}
 }

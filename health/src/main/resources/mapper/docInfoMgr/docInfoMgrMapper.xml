@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="selfInfoMgr.docInfoMgr.dao.IDocInfoMgrDao">
+	<select id="getDocInfo" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DOCNAME,
+			A.NICKNAME,
+			A.PHONE,
+			A.GENDER,
+			A.SELFAGE,
+			A.EMAIL,
+			A.TIP,
+			A.DEPARTMENT,
+			B.DEP_NAME,
+			A.HOSPITAL,
+			A.LEVEL
+		FROM 
+			H_DOC A LEFT JOIN H_DOC_DEPARTMENT B ON A.DEPARTMENT = B.DEP_CODE
+		WHERE 
+			A.UUID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getDocPro" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.PORTRAIT
+		FROM 
+			H_DOC A
+		WHERE 
+			A.UUID = #{UUID}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<update id="updateDocInfo" parameterType="java.util.Map">
+		UPDATE H_DOC
+		SET	DOCNAME = #{DOCNAME},
+			NICKNAME = #{NICKNAME},
+			GENDER = #{GENDER},
+			SELFAGE = #{SELFAGE},
+			EMAIL = #{EMAIL},
+			TIP = #{TIP},
+			DEPARTMENT = #{DEPARTMENT},
+			HOSPITAL = #{HOSPITAL}	
+		WHERE PHONE = #{PHONE}
+	</update>
+	
+	<update id="uploadDocPro" parameterType="java.util.Map">
+		UPDATE H_DOC
+		SET	PORTRAIT = #{PORTRAIT}	
+		WHERE UUID = #{UUID}
+	</update>
+	
+</mapper>

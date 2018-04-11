@@ -38,6 +38,8 @@
                       <value>toDocRegisterPage.do</value>
                       <value>docLogin.do</value>
                       <value>docRegister.do</value>
+                      <value>toAdminLoginPage.do</value>
+                      <value>adminLogin.do</value>
                     </list>      
                 </property>      
             </bean>    

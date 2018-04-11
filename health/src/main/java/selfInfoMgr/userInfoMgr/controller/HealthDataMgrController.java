@@ -162,4 +162,13 @@ public class HealthDataMgrController  extends BaseController{
 		}
 		printHttpServletResponse(new Gson().toJson(result),response);
 	}
+	
+	/**
+	 * 跳转到批量导入页面
+	 * @return
+	 */
+	@RequestMapping("/toUploadExcelPage")
+	public String toUploadExcelPage() {
+		return "user/healthDataMgr/uploadExcel";
+	}
 }

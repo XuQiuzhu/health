@@ -82,8 +82,8 @@ input{
 </head>
 <body>
 <div class="login">
-		<form id="userInfo">  
-		            真实姓名: <input id="username" type="text" name="USERNAME"/><br />  
+		<form id="docInfo">  
+		            真实姓名: <input id="docname" type="text" name="DOCNAME" readOnly="readonly"/><br />  
 		            昵称: <input id="nickname" type="text" name="NICKNAME"/><br />
 		            手机号: <input id="phone" type="text" name="PHONE" readonly="readonly"/><br />
 		            性别: <select id="gender" class="GENDER" style="width:20%;height:30px;padding-left:5px;margin-bottom:18px;">
@@ -92,76 +92,67 @@ input{
 					</select><br/> 
 		            年龄: <input id="selfage" type="text" name="SELFAGE"/><br />
 		            邮箱: <input id="email" type="text" name="EMAIL"/><br />
-		            出生日期: <input class="easyui-datebox" id="born_date" name="BORN_DATE"></input><br />
+		            医院: <input id="hospital" type="text" name="HOSPITAL"/><br />
+		            科室: <input id="department" type="text" name="DEPARTMENT"/><br />
+		            简介: <input id="tip" type="text" name="TIP"/><br />
+		            
 		    <input type="button" class="subBtn" onclick="updateInfo()" value="确认修改" style="margin-left:5%;margin-top:18px">                                    
 		</form>
+</div>
+<div>
+	<button class="subBtn" onclick="cancellation()">注销账号</button>
 </div>
 <div class="touxiang">
 	<div id="pics">
     	<img id="touxiangPic" src="#">
     </div>
     <label>头 像</label><input id="fileField" type="file" name="file"  style="width: 230px;" class="easyui-filebox,file" data-options="required:true"/><br/>
-    <button type="button" class=""  onclick="uploadUserPro()" >上传</button>
+    <button type="button" class=""  onclick="uploadDocPro()" >上传</button>
 </div>
 </body>
 
 
 <script type="text/javascript">
 $(function(){
-	loadUserInfo();
-	getPro();
+	loadDocInfo();
+	getDocPro();
+	getAllDepartment();
 });
-function loadUserInfo(){
+function loadDocInfo(){
 		$.ajax({
 			type : 'post',
-			url : basePath+'/UserInfoMgrController/getUserInfo.do',
+			url : basePath+'/DocInfoMgrController/getDocInfo.do',
 			dataType : 'json',
 			success : function(result) {
-				$("#username").val(result.USERNAME);
+				$("#docname").val(result.DOCNAME);
 				$("#nickname").val(result.NICKNAME);
 				$("#phone").val(result.PHONE);
 				$("#gender").val(result.GENDER);
 				$("#selfage").val(result.SELFAGE);
 				$("#email").val(result.EMAIL);
-				$("#born_date").val(result.BORN_DATE);
+				$("#hospital").val(result.HOSPITAL);
+				$("#department").val(result.DEPARTMENT);
+				$("#tip").val(result.TIP);
 				//myformatter(result.BORN_DATE);
 			},error:function(){
 				$.messager.alert('提示','系统异常','error');
 			}
 		});
 }
-/* function myformatter(date){
-	var y = date.getFullYear();
-	var m = date.getMonth()+1;
-	var d = date.getDate();
-	return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-}
-function myparser(s){
-	if (!s) return new Date();
-	var ss = (s.split('-'));
-	var y = parseInt(ss[0],10);
-	var m = parseInt(ss[1],10);
-	var d = parseInt(ss[2],10);
-	if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-		return new Date(y,m-1,d);
-	} else {
-		return new Date();
-	}
-} */
 function updateInfo(){
-	var form= $("#userInfo");
+	var form= $("#docInfo");
 	var isValid = $(form).form('validate');	
 	if(isValid){
 		var data = ns.serializeObject(form);//获取表单所有的name值
 		$.ajax({
 			type : 'post',
-			url : basePath+'/UserInfoMgrController/updateUserInfo.do',
+			url : basePath+'/DocInfoMgrController/updateDocInfo.do',
 			data :{"data":JSON.stringify(data)},
 			dataType : 'json',
 			success : function(result) {
 				if(result.result == "success"){
 					$.messager.alert('提示','修改成功！','info',function () {
-						window.location.href = basePath+'/UserInfoMgrController/toUserInfoCheckPage.do';
+						window.location.href = basePath+'/DocInfoMgrController/toDocInfoCheckPage.do';
 			        });
 				}else{
 					$.messager.alert('提示','系统异常','error');
@@ -172,10 +163,10 @@ function updateInfo(){
 		});
 	}
 }
-function getPro(){
+function getDocPro(){
 	$.ajax({
 		type : 'post',
-		url : basePath+'/UserInfoMgrController/getPro.do',
+		url : basePath+'/DocInfoMgrController/getDocPro.do',
 		dataType : 'json',
 		success : function(result) {
 			if(result.PORTRAIT != null){
@@ -187,14 +178,14 @@ function getPro(){
 	});
 }
 
-function uploadUserPro(){     
+function uploadDocPro(){     
 	  var uploadEventFile = $("#fileField").val();  
       if(uploadEventFile == '' || null == uploadEventFile){  
           alert("请选择图片,再上传");  
       }else if(uploadEventFile.lastIndexOf(".jpg")<0 && uploadEventFile.lastIndexOf(".JPG")<0){
           alert("只能上传图片");  
       }else{
-          var url = basePath+'/UserInfoMgrController/uploadUserPro.do';  
+          var url = basePath+'/DocInfoMgrController/uploadDocPro.do';  
           //console.info(uploadEventFile);
           $.ajaxFileUpload({
 				type :'post',
@@ -213,5 +204,32 @@ function uploadUserPro(){
       }  
 
     }  
+    
+function getAllDepartment(){  
+    $.ajax({
+        url:basePath+'/UserChooseDocController/getDepartment.do',  
+        dataType:"json", 
+        type:"GET",
+        required : true,
+        success:function(data){                                 
+                    //绑定第一个下拉框
+                    $('#department').combobox({
+                            data: data,                        
+                            valueField: 'DEP_CODE',
+                            textField: 'DEP_NAME'}
+                            );                       
+       },
+       error:function(error){
+           alert("初始化下拉控件失败");
+       }
+    })
+}
+function cancellation(){
+	$.messager.confirm('确认','注销后将不能登录，确认注销账户吗?',function(r){  
+	    if (r){ 
+	    	window.location.href="<%=basePath%>docLoginController/cancellation.do";
+	    }  
+	}); 
+}
 </script>
 </html>

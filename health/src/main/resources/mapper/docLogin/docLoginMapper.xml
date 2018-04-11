@@ -26,10 +26,9 @@
 		  (#{UUID},#{NICKNAME},#{PHONE},2,#{GENDER},#{PASSWORD},#{EMAIL},#{DOCNAME},#{SELFAGE},#{HOSPITAL},#{DEPARTMENT},NOW(),0)
 	</insert>
 	
-	<!-- <update id="uploadPic" parameterType="java.util.Map">
-		UPDATE YONGHU
-		SET	TOUXIANG_PATH = #{TOUXIANG_PATH},
-			TOUXIANG_NAME = #{TOUXIANG_NAME}	
-		WHERE YONGHU_CODE = #{YONGHU_CODE}
-	</update> -->
+	<update id="cancellation" parameterType="java.util.Map">
+		UPDATE H_DOC
+		SET	DELETE_FLAG = 1
+		WHERE UUID = #{UUID}
+	</update>
 </mapper>

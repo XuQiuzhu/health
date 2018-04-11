@@ -56,4 +56,12 @@ public class DocLoginServiceImpl implements IDocLoginService{
 		}
 	}
 
+	@Override
+	public void cancellation() {
+		Map<String,String> param = new HashMap<String, String>();
+		param.put("UUID", (String) session.getAttribute(GlobalConstant.LOGIN_USER));
+		docLoginDao.cancellation(param);
+		session.removeAttribute(GlobalConstant.LOGIN_USER);
+	}
+
 }

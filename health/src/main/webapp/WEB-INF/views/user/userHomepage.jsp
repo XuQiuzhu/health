@@ -9,10 +9,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>主页</title>
 <%@include file="../common/common.jsp"%>
+<style type="text/css">
+.loginout{
+					background-color: white;
+				    color: black;
+				    border: 2px solid #008CBA; /* Green */
+				    padding: 1px 2px;
+				    text-align: center;
+				    text-decoration: none;
+				    width: 5%;
+				    display: inline-block;
+				    float:right;
+				    margin-right:5px;
+				    font-size: 16px;
+				    -webkit-transition-duration: 0.4s; /* Safari */
+				    transition-duration: 0.4s;
+}
+.loginout:hover {
+				    background-color: #008CBA; /* Green */
+				    color: white;
+				}
+</style>
 </head>
 <body>
 	<div class="easyui-layout" id="main_layout">
-		<div id="tittle" region="north" title="个人健康助手" style="padding:0.1px;">
+		<div id="tittle" region="north" title="" style="padding:0.1px;height:10%">
+			<p>个人健康助手
+			<button class="loginout" onclick="loginout()">退出</button>
 		</div>
 		<div region="west" split="true" title="菜单" style="width:12%;">
 			<div title="菜单">
@@ -36,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span>信息管理</span>
 						<ul>
 							<li><a onclick="addTab('信息管理','<%=basePath%>UserInfoMgrController/toUserInfoCheckPage.do')">信息管理</a></li>
-							<li><a onclick="addTab('头像管理','<%=basePath%>UserInfoMgrController/toUserPortraitMgrPage.do')">头像管理</a></li>
+							<%-- <li><a onclick="addTab('头像管理','<%=basePath%>UserInfoMgrController/toUserPortraitMgrPage.do')">头像管理</a></li> --%>
 						</ul>
 					</li>
 					<li>
@@ -95,6 +118,9 @@ function addTab(title, url){
 			closable:true
 		});
 	}
+}
+function loginout(){
+	window.location.href="<%=basePath%>userLoginController/loginout.do";
 }
 </script>
 </html>

@@ -12,5 +12,6 @@ public interface IHealthDataDao {
 	public void modifyHealthData(Map<String,Object> param);
 	public void deleteHealthData(Map<String,Object> param);
 	public List<Map<String,Object>> getChartsData(Map<String,String> param);
+	void excelImpDatas(List<Map<String,Object>> list);
 	
 }

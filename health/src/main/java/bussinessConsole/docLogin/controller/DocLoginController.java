@@ -68,4 +68,10 @@ public class DocLoginController  extends BaseController{
 		}
 		printHttpServletResponse(new Gson().toJson(result),response);
 	}
+	
+	@RequestMapping("/cancellation")
+	public String cancellation() {
+		docLoginService.cancellation();
+		return "index";
+	}
 }
