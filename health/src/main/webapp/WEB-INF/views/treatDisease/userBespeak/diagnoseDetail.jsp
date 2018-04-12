@@ -15,19 +15,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<form id="diagnoseDetailForm" style="margin: 20px 40px;">
 			<table>
 				<tr>
-					<td>类型</td><td><input id="type" name="TYPE"  value="${diaInfo.DEP_NAME}" class="easyui-combobox" width="50px" data-options="required:true" readonly="readonly"/></td>
+					<td>类型</td><td><input id="type" name="TYPE"  value="${diaInfo.DISEASETYPE_NAME}" class="easyui-combobox" width="50px" data-options="required:true" readonly="readonly"/></td>
 				</tr>
 				<tr>
 					<td>症状描述</td><td><input  type="text" name="DESCRIPTION" value="${diaInfo.DESCRIPTION}" class="easyui-textbox" data-options="multiline:true,required:true,validType:['length[0,300]']" style="height:100px" readonly="readonly"/></td>
 				</tr>
 				<tr>
-					<td>诊断内容</td><td><input type="text" name="DOCNAME" value="${diaInfo.CONTENT}" class="easyui-validatebox" data-options="required:true,validType:['length[1,10]']" readonly="readonly"/></td>
+					<td>诊断内容</td><td><input type="text" name="CONTENT" value="${diaInfo.CONTENT}" class="easyui-textbox" data-options="multiline:true,required:true,validType:['length[0,300]']" style="height:100px" readonly="readonly"/></td>
 				</tr>
 				<tr>
 					<td>医生姓名</td><td><input type="text" name="DOCNAME" value="${diaInfo.DOCNAME}" class="easyui-validatebox" data-options="required:true,validType:['length[1,10]']" readonly="readonly"/></td>
 				</tr>
 				<tr>
-					<td>诊断时间</td><td><input type="text" name="CREATETIME" value="${diaInfo.CREATETIME}" class="easyui-validatebox" data-options="required:true,validType:['length[1,10]']" readonly="readonly"/></td>
+					
+					<td>诊断时间</td><td><input class="easyui-datebox" id="CREATETIME" name="CREATETIME" value="${diaInfo.CREATETIME}" readonly="readonly"></input></td>
 				</tr>
 				
 			</table>

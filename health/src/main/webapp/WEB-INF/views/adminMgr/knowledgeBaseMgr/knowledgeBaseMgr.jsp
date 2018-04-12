@@ -162,7 +162,7 @@ function showModifyDataDialog(select){
          title : '编辑数据',
          width : 550,
          height : 380,
-         url : basePath+'/knowledgeBaseMgr/toModifyData.do?UUID='+select.UUID,
+         url : basePath+'/knowledgeBaseMgr/toModifyDataPage.do?UUID='+select.UUID,
          buttons : [{
              text : '确定',
              iconCls : 'icon-save',
@@ -197,7 +197,7 @@ function deleteData(select){
 	     	//console.info(select.UUID);
 			$.ajax({
 	                type : 'post',
-	                url : '${ct}/knowledgeBaseMgr/deleteData.do',
+	                url : '${ct}/knowledgeBaseMgr/deleteKnowledgeData.do',
 	                data :{"data":JSON.stringify(data)},
 	                dataType : 'json',
 	                success : function(result) {

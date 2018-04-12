@@ -186,24 +186,36 @@
 	<select id="getDiagnoseDetail" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			A.UUID,
+			A.USERID,
+			A.DOCID,
+			A.SUBSCRIBEID,
 			A.DESCRIPTION,
 			A.CONTENT,
 			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
 			B.UUID AS DOCUUID,
 			B.DOCNAME,
-			C.DEP_NAME
+			C.DISEASETYPE_NAME
 		FROM 
-			H_DIAGNOSE A LEFT JOIN H_DOC_DEPARTMENT C ON A.DISEASETYPE_CODE = C.DEP_CODE,
+			H_DIAGNOSE A LEFT JOIN H_DISEASETYPE C ON A.DISEASETYPE_CODE = C.DISEASETYPE_CODE,
 			H_DOC B
 		WHERE 
 			A.DELETE_FLAG = 0
 		AND
 			B.DELETE_FLAG = 0
 		AND
-			C.DELETE_FLAG = 0
-		AND
 			A.DOCID = B.UUID
-		AND A.SUBSCRIBEID = #{UUID}
+		AND 
+			A.SUBSCRIBEID = #{UUID}
+	</select>
+	
+	<select id="getDocLevelInfo" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+		COUNT(DOCID) AS COUNT,
+		SUM(SATISFACTION) AS SUM
+		FROM 
+		H_FEEDBACK 
+		WHERE 
+		DOCID= #{DOCID}
 	</select>
 	
 	<insert id="buildReservation" parameterType="java.util.Map">
@@ -214,7 +226,7 @@
 	<insert id="addFeedback" parameterType="java.util.Map">
 		INSERT INTO H_FEEDBACK
 		  (UUID,USERID,DOCID,SUBSCRIBEID,COMMENT,SATISFACTION,CREATETIME)
-		VALUES(#{UUID},#{USERID},#{DOCID},#{SUBSCRIBEID},#{COMMENT},SATISFACTION，NOW())
+		VALUES(#{UUID},#{USERID},#{DOCID},#{SUBSCRIBEID},#{COMMENT},#{SATISFACTION},NOW())
 	</insert>
 	<update id="updateSubscribe" parameterType="java.util.Map">
 		UPDATE H_SUBSCRIBE
@@ -223,13 +235,18 @@
 	</update>
 	<update id="modifySub" parameterType="java.util.Map">
 		UPDATE H_SUBSCRIBE
-		SET	DIAGNOSE_STATUS = 4,
+		SET	DIAGNOSE_STATUS = 4
 		WHERE UUID = #{SUBSCRIBEID}
 	</update>
 	<update id="deleteSub" parameterType="java.util.Map">
 		UPDATE H_SUBSCRIBE
 		SET	DELETE_FLAG = 1
 		WHERE UUID = #{UUID}
+	</update>
+	<update id="modifyDocLevel" parameterType="java.util.Map">
+		UPDATE H_DOC
+		SET	LEVEL = #{LEVEL}
+		WHERE UUID = #{DOCID}
 	</update>
 	
 </mapper>

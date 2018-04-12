@@ -45,5 +45,20 @@ public class KonwledgeBaseMgrServiceImpl implements IKonwledgeBaseMgrService {
 		param.put("UUID", UUIDUtil.uuidStr());
 		konwledgeBaseMgrDao.addKnowledgeData(param);
 	}
+
+	@Override
+	public Map<String, String> getOneKnowledgeData(Map<String, String> param) {
+		return konwledgeBaseMgrDao.getOneKnowledgeData(param);
+	}
+
+	@Override
+	public void modifyKnowledgeData(Map<String, Object> param) {
+		konwledgeBaseMgrDao.modifyKnowledgeData(param);
+	}
+
+	@Override
+	public void deleteKnowledgeData(Map<String, Object> param) {
+		konwledgeBaseMgrDao.deleteKnowledgeData(param);
+	}
 	
 }

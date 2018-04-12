@@ -12,13 +12,16 @@
 			DATE_FORMAT(A.CREATETIME, '%Y-%c-%d %H:%i:%s') AS CREATETIME
 		FROM 
 			H_HEALTHKNOWLEDGE A LEFT JOIN H_KNOWLEDGETYPE B ON A.CLASSIFICATION = B.KNOWLEDGETYPE_CODE
-		<if test='KEYWORD!=NULL and KEYWORD!="" '>
 			WHERE 
+				A.DELETE_FLAG = 0
+		<if test='KEYWORD!=NULL and KEYWORD!="" '>
+			AND(
 				A.TITTLE LIKE "%"#{KEYWORD}"%"
 			OR 
 				A.CONTENT LIKE "%"#{KEYWORD}"%"
 			OR
 				B.KNOWLEDGETYPE_NAME LIKE "%"#{KEYWORD}"%"
+			)
 		</if>
 		ORDER BY A.CREATETIME DESC
 	</select>
@@ -27,14 +30,31 @@
 			COUNT(1)
 		FROM 
 			H_HEALTHKNOWLEDGE A LEFT JOIN H_KNOWLEDGETYPE B ON A.CLASSIFICATION = B.KNOWLEDGETYPE_CODE
+		WHERE 
+				A.DELETE_FLAG = 0
 		<if test='KEYWORD!=NULL and KEYWORD!="" '>
-			WHERE 
+			AND(
 				A.TITTLE LIKE "%"#{KEYWORD}"%"
 			OR 
 				A.CONTENT LIKE "%"#{KEYWORD}"%"
 			OR
 				B.KNOWLEDGETYPE_NAME LIKE "%"#{KEYWORD}"%"
+			)
 		</if>
+	</select>
+	
+	<select id="getOneKnowledgeData" resultType="java.util.HashMap">
+		SELECT	
+			A.UUID,
+			A.TITTLE,
+			A.CONTENT,
+			A.CLASSIFICATION
+		FROM 
+			H_HEALTHKNOWLEDGE A
+		WHERE 
+			A.DELETE_FLAG = 0
+		AND 
+			A.UUID = #{UUID}
 	</select>
 	
 	<select id="getClassification" resultType="java.util.HashMap">
@@ -54,10 +74,17 @@
 		  (#{UUID},#{TITTLE},#{CONTENT},'',#{CLASSIFICATION},NOW(),NOW())
 	</insert>
 	
-	<update id="uploadPic" parameterType="java.util.Map">
-		UPDATE YONGHU
-		SET	TOUXIANG_PATH = #{TOUXIANG_PATH},
-			TOUXIANG_NAME = #{TOUXIANG_NAME}	
-		WHERE YONGHU_CODE = #{YONGHU_CODE}
+	<update id="modifyKnowledgeData" parameterType="java.util.Map">
+		UPDATE H_HEALTHKNOWLEDGE
+		SET	TITTLE = #{TITTLE},
+			CONTENT = #{CONTENT},
+			CLASSIFICATION = #{CLASSIFICATION},
+			UPDATETIME = NOW()
+		WHERE UUID = #{UUID}
+	</update>
+	<update id="deleteKnowledgeData" parameterType="java.util.Map">
+		UPDATE H_HEALTHKNOWLEDGE
+		SET	DELETE_FLAG = 1
+		WHERE UUID = #{UUID}
 	</update>
 </mapper>

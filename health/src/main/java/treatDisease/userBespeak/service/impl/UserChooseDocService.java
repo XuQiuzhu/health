@@ -1,5 +1,6 @@
 package treatDisease.userBespeak.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -92,13 +93,16 @@ public class UserChooseDocService implements IUserChooseDocService {
 	}
 
 	@Override
-	public void addFeedback(Map<String, String> param) {
-		String userUUID = (String) session.getAttribute(GlobalConstant.LOGIN_USER);
+	public void addFeedback(Map<String, Object> param) {
+		//String userUUID = (String) session.getAttribute(GlobalConstant.LOGIN_USER);
 		String UUID = UUIDUtil.uuidStr();
-		param.put("USERID", userUUID);
+		//param.put("USERID", userUUID);
 		param.put("UUID", UUID);
 		userChooseDocDao.addFeedback(param);
 		userChooseDocDao.modifySub(param);
+		Map<String,Object> result = userChooseDocDao.getDocLevelInfo(param);
+		param.put("LEVEL",Integer.valueOf(String.valueOf(result.get("SUM")))/Integer.valueOf(String.valueOf(result.get("COUNT"))));
+		userChooseDocDao.modifyDocLevel(param);
 	}
 	
 }

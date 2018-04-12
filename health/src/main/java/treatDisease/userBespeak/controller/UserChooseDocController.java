@@ -201,13 +201,13 @@ public class UserChooseDocController extends BaseController {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("UUID", UUID);
 		try{
-			result = userChooseDocService.getOneSubscribe(param);
+			result = userChooseDocService.getDiagnoseDetail(param);
 		}
 		catch (Exception e) {
 			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
 		}
 		request.setAttribute("diaInfo", result);
-		return "treatDisease/userBespeak/diagnoseDetail";
+		return "treatDisease/userBespeak/judge";
 	}
 	/**
 	 * 评价
@@ -216,7 +216,7 @@ public class UserChooseDocController extends BaseController {
 	public void judge(HttpServletRequest request,HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<String,Object>();
 		String data = request.getParameter("data");
-		Map<String, String> param = new HashMap<String, String>();
+		Map<String, Object> param = new HashMap<String, Object>();
 		if(null != data && !"".equals(data)) {
 			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
 		}

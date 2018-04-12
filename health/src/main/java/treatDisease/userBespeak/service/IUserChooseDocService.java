@@ -16,6 +16,6 @@ public interface IUserChooseDocService {
 	public void modifySub(Map<String,String> param);
 	public void deleteSub(Map<String,String> param);
 	public Map<String,String> getDiagnoseDetail(Map<String,String> param);
-	public void addFeedback(Map<String,String> param);
+	public void addFeedback(Map<String,Object> param);
 	
 }

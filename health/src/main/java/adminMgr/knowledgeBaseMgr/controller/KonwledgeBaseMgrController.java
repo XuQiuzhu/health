@@ -81,7 +81,7 @@ public class KonwledgeBaseMgrController extends BaseController {
 	}
 	
 	/**
-	 * 添加分类
+	 * 添加知识库数据
 	 */
 	@RequestMapping("/addKnowledgeData")
 	public void addKnowledgeData(HttpServletRequest request,HttpServletResponse response) {
@@ -99,6 +99,67 @@ public class KonwledgeBaseMgrController extends BaseController {
 				throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
 			}
 			printHttpServletResponse(new Gson().toJson(result),response);
+	}
+	/**
+	 * 跳转修改页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/toModifyDataPage")
+	public String toModifyDataPage(HttpServletRequest request) {
+		String UUID = request.getParameter("UUID");
+		Map<String, String> result = new HashMap<String,String>();
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("UUID", UUID);
+		try{
+			result = knowledgeBaseMgrService.getOneKnowledgeData(param);
+		}
+		catch (Exception e) {
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		request.setAttribute("knowledgeData", result);
+		return "adminMgr/knowledgeBaseMgr/modifyKnowledgeBase";
+	}
+	
+	/**
+	 * 修改
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/modifyKnowledgeData")
+	public void modifyKnowledgeData(HttpServletRequest request,HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String,Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		String data = request.getParameter("data");
+		if(null != data && !"".equals(data)) {
+			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		}
+		try{
+			knowledgeBaseMgrService.modifyKnowledgeData(param);;
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		printHttpServletResponse(new Gson().toJson(result),response);
+	}
+	
+	@RequestMapping("/deleteKnowledgeData")
+	public void deleteKnowledgeData(HttpServletRequest request,HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String,Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		String data = request.getParameter("data");
+		if(null != data && !"".equals(data)) {
+			param =  new Gson().fromJson(data, new TypeToken<Map<String, Object>>() {}.getType());
+		}
+		try{
+			knowledgeBaseMgrService.deleteKnowledgeData(param);
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			throw new IServiceException(this.getClass() + " --> getTodoTasksListComp() Exception : " + e);
+		}
+		printHttpServletResponse(new Gson().toJson(result),response);
 	}
 	
 }

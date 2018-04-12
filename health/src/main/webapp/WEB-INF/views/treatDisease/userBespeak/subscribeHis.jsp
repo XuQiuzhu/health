@@ -397,7 +397,7 @@ function diagnoseDetailDialog(select){
 	var judgedDialog =  parent.ns.modalDialog({
         title : '诊断详情',
         width : 350,
-        height : 300,
+        height : 400,
         url : basePath+'/UserChooseDocController/toDiagnoseDetail.do?UUID='+select.UUID/* ,
         buttons : [{
             text : '确定',
@@ -412,15 +412,15 @@ function diagnoseDetailDialog(select){
 //评价
 function doJudgeDialog(select){
 	var doJudgeDialog =  parent.ns.modalDialog({
-        title : '修改预约单',
+        title : '评价诊断',
         width : 350,
-        height : 300,
+        height : 500,
         url : basePath+'/UserChooseDocController/toJudge.do?UUID='+select.UUID,
         buttons : [{
             text : '确定',
             iconCls : 'icon-save',
             handler : function(){
-            	doJudgeDialog.find('iframe').get(0).contentWindow.submitData(doJudgeDialog,waitJudgeGrid,parent.$,select.UUID);
+            	doJudgeDialog.find('iframe').get(0).contentWindow.submitData(doJudgeDialog,waitJudgeGrid,parent.$);
             }
         }]
     });
