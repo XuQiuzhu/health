@@ -3,33 +3,55 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminMgr.knowledgeBaseMgr.dao.IKonwledgeBaseMgrDao">
-	<select id="getLoginYonghu" parameterType="java.util.Map" resultType="java.util.HashMap">
+	<select id="getKnowledgeData" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT
-			A.YONGHU_UUID,
-			A.YONGHU_CODE,
-			A.YONGHU_NAME,
-			A.YONGHU_PASSWORD,
-			A.YONGHU_NICKNAME
+			A.UUID,
+			A.TITTLE,
+			A.CONTENT,
+			B.KNOWLEDGETYPE_NAME,
+			DATE_FORMAT(A.CREATETIME, '%Y-%c-%d %H:%i:%s') AS CREATETIME
 		FROM 
-			YONGHU A
-		WHERE 
-			A.YONGHU_CODE = #{YONGHU_CODE}
-		AND 
-			A.YONGHU_PASSWORD = #{YONGHU_PASSWORD}
+			H_HEALTHKNOWLEDGE A LEFT JOIN H_KNOWLEDGETYPE B ON A.CLASSIFICATION = B.KNOWLEDGETYPE_CODE
+		<if test='KEYWORD!=NULL and KEYWORD!="" '>
+			WHERE 
+				A.TITTLE LIKE "%"#{KEYWORD}"%"
+			OR 
+				A.CONTENT LIKE "%"#{KEYWORD}"%"
+			OR
+				B.KNOWLEDGETYPE_NAME LIKE "%"#{KEYWORD}"%"
+		</if>
+		ORDER BY A.CREATETIME DESC
+	</select>
+	<select id="getKnowledgeDataCount" parameterType="java.util.Map" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM 
+			H_HEALTHKNOWLEDGE A LEFT JOIN H_KNOWLEDGETYPE B ON A.CLASSIFICATION = B.KNOWLEDGETYPE_CODE
+		<if test='KEYWORD!=NULL and KEYWORD!="" '>
+			WHERE 
+				A.TITTLE LIKE "%"#{KEYWORD}"%"
+			OR 
+				A.CONTENT LIKE "%"#{KEYWORD}"%"
+			OR
+				B.KNOWLEDGETYPE_NAME LIKE "%"#{KEYWORD}"%"
+		</if>
 	</select>
 	
-	<insert id="impUsers" parameterType="java.util.Map">
-		INSERT INTO YONGHU
-		  (YONGHU_UUID,YONGHU_CODE,YONGHU_NAME,YONGHU_PASSWORD,YONGHU_NICKNAME)
-		<foreach open="(" close=")" collection="list" item="item" index="index" separator="UNION">
-		 SELECT 
-		        #{item.YONGHU_UUID,jdbcType=VARCHAR},
-				#{item.YONGHU_CODE,jdbcType=VARCHAR},
-				#{item.YONGHU_NAME,jdbcType=VARCHAR},
-				#{item.YONGHU_PASSWORD,jdbcType=VARCHAR},
-				#{item.YONGHU_NICKNAME,jdbcType=VARCHAR}
-		     FROM dual
-		   </foreach>
+	<select id="getClassification" resultType="java.util.HashMap">
+		SELECT
+			A.KNOWLEDGETYPE_CODE,
+			A.KNOWLEDGETYPE_NAME
+		FROM 
+			H_KNOWLEDGETYPE A
+		WHERE 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<insert id="addKnowledgeData" parameterType="java.util.Map">
+		INSERT INTO h_healthknowledge
+		  (UUID,TITTLE,CONTENT,PICTURE,CLASSIFICATION,CREATETIME,UPDATETIME)
+		VALUES
+		  (#{UUID},#{TITTLE},#{CONTENT},'',#{CLASSIFICATION},NOW(),NOW())
 	</insert>
 	
 	<update id="uploadPic" parameterType="java.util.Map">
