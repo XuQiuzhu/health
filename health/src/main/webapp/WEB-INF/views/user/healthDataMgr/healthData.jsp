@@ -33,8 +33,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<table id="healthDataGrid"></table>
     	</div> 
 	</div>
-	
-	
 </div>
 </body>
 <script type="text/javascript">
@@ -52,12 +50,9 @@ function loadHealthData(){
 		healthDataGrid = $('#healthDataGrid').datagrid($.extend({
 			pagination:true,
 			pageSize:10,
-	    	//pageList:[10,20,30,40,50],
 	        singleSelect : true,
 	        striped:true,
 	        loadMsg:"正在加载中......",
-	        //data :{"data":JSON.stringify(data)},
-	        //dataType : 'json',
 	        queryParams: { 'data': JSON.stringify(data) },
 	        url : basePath+'/HealthDataMgrController/getHealthData.do',
 	        frozenColumns : [

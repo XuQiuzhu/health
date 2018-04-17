@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</ul>
 					</li>
 					<li>
-						<span>健康数据</span>
+						<span>操作诊断</span>
 						<ul>
 							<li><a onclick="addTab('预约请求','<%=basePath%>docTreatUserController/toSubscribeReqPage.do')">预约请求</a></li>
 							<li><a onclick="addTab('诊断','<%=basePath%>docTreatUserController/doTreat.do')">诊断</a></li>

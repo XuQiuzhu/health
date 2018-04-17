@@ -3,7 +3,6 @@ package util.commonUtil;
 
 /**
  * 生成一串随机数
- * @author 戴顺
  * @date 2015-08-14
  */
 
