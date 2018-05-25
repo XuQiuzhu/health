@@ -61,18 +61,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li><a onclick="addTab('知识库管理','<%=basePath%>knowledgeBaseMgr/toKnowledgeBaseMgrPage.do')">知识库管理</a></li>
 						</ul>
 					</li>
-					<li>
+					<%-- <li>
 						<span>综合数据图表</span>
 						<ul>
 							<li><a onclick="addTab('','<%=basePath%>')"></a></li>
 							<li><a onclick="addTab('','<%=basePath%>')"></a></li>
 						</ul>
-					</li>
+					</li> --%>
 					<li>
 						<span>设置推送</span>
 						<ul>
-							<li><a onclick="addTab('新建推送','<%=basePath%>.do')">新建推送</a></li>
-							<li><a onclick="addTab('推送历史','<%=basePath%>.do')">推送历史</a></li>
+							<li><a onclick="addTab('新建推送','<%=basePath%>PushMgrController/toNewPushPage.do')">新建推送</a></li>
+							<%-- <li><a onclick="addTab('推送历史','<%=basePath%>PushMgrController/.do')">推送历史</a></li> --%>
 						</ul>
 					</li>
 				</ul>

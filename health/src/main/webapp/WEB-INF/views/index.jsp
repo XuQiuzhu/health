@@ -38,22 +38,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     color: white;
 }
 .choose{
+    width:100%;
+    height:100%;
+}
+.content{
 	text-align:center;
-    margin-top:10%;
+    padding-top:10%;
 }
 </style>
   </head>
   
   <body>
-  <div class="choose">
-  	<div style="padding-bottom:10px;">
-  		<span>请选择您的身份</span>
-  	</div>
-  	<div>
-  		<a class="button" type="button" onclick="" href="<%=basePath%>adminLoginController/toAdminLoginPage.do">管理员</a>
-	  	<a class="button" type="button" onclick="" href="<%=basePath%>docLoginController/toDocLoginPage.do">医生</a>
-	  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">普通用户</a>
-  	</div>
+  <div class="choose" id="choose">
+	   <div class="content">
+		  	<div style="padding-bottom:10px;">
+		  		<span>请选择您的身份</span>
+		  	</div>
+		  	<div>
+		  		<a class="button" type="button" onclick="" href="<%=basePath%>adminLoginController/toAdminLoginPage.do">管理员</a>
+			  	<a class="button" type="button" onclick="" href="<%=basePath%>docLoginController/toDocLoginPage.do">医生</a>
+			  	<a class="button" type="button" onclick="" href="<%=basePath%>userLoginController/toLoginPage.do">普通用户</a>
+		  	</div>
+	  	</div>
   </div> 
   </body>
   <script type="text/javascript">
@@ -61,6 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    if (window != top) {    
 	        top.location.href = location.href;    
 	    }    
+	    //$("#choose").attr('style',"background:url(\'"+basePath+"/static/images/timg.jpg\');background-size:cover;");
 	}); 
   function submitIdentity(identity){
 	  var url = basePath;

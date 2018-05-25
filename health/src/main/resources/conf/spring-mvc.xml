@@ -40,6 +40,7 @@
                       <value>docRegister.do</value>
                       <value>toAdminLoginPage.do</value>
                       <value>adminLogin.do</value>
+                      <value>AndroidController</value>
                     </list>      
                 </property>      
             </bean>    

@@ -42,17 +42,22 @@ input{
 	                -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	                transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s		
     }
-    .login{
+      .login{
     				/* text-align:center; */
-    				margin-left:5%;
+    				position:absolute;
+    				margin-left:15%;
     				margin-top:5%;
+    				width:40%;
+    				overflow:hidden;
 		    }  
 	.touxiang{
-					margin-left:50%;
+					width:50%;
+					margin-left:20%;
     				margin-top:5%;
     				float:right;
+    				positin:relative;
 	} 
-    .subBtn{
+    .subBtn{ 				
     				background-color: white;
 				    color: black;
 				    border: 2px solid #008CBA; /* Green */
@@ -64,6 +69,10 @@ input{
 				    font-size: 16px;
 				    -webkit-transition-duration: 0.4s; /* Safari */
 				    transition-duration: 0.4s;
+				    positin:relative;
+				    margin-top:20%;
+				    margin-left:45%;
+				    
     }   
     .subBtn:hover {
 				    background-color: #008CBA; /* Green */
@@ -99,16 +108,15 @@ input{
 		    <input type="button" class="subBtn" onclick="updateInfo()" value="确认修改" style="margin-left:5%;margin-top:18px">                                    
 		</form>
 </div>
-<div>
-	<button class="subBtn" onclick="cancellation()">注销账号</button>
-</div>
 <div class="touxiang">
 	<div id="pics">
     	<img id="touxiangPic" src="#">
     </div>
     <label>头 像</label><input id="fileField" type="file" name="file"  style="width: 230px;" class="easyui-filebox,file" data-options="required:true"/><br/>
     <button type="button" class=""  onclick="uploadDocPro()" >上传</button>
+    
 </div>
+<button class="subBtn" onclick="cancellation()">注销账号</button>
 </body>
 
 

@@ -90,5 +90,9 @@ public class GlobalConstant {
 	 */
 	public static String ZXL_UUID_SCLSWJ = "22ABB489D19D5818E050FADCE1405AB6";
 	
-	
+	/**
+	 * 极光推送
+	 */
+	public static String MASTER_SECRET = "e6d2daef80ba3c44792eab68";
+	public static String APP_KEY = "86b04531ed04f1d18aa2dc79";
 }

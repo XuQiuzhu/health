@@ -26,7 +26,7 @@ public class SessionTimeoutInterceptor implements HandlerInterceptor {
                  * 登录页login.do不进行拦截 
                  */  
                 for(String url : allowUrls) {    
-                    if(requestUrl.endsWith(url)) {    
+                    if(requestUrl.contains(url)) {    
                         return true;    
                     }    
                 }   

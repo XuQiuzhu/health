@@ -74,7 +74,9 @@ public class UserInfoMgrController extends BaseController{
 	}
 	
 	@RequestMapping("/uploadUserPro")
-	public void uploadUserPro(@RequestParam(value="file",required = false)MultipartFile file,HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException{
+	public void uploadUserPro(@RequestParam(value="file",required = false)MultipartFile file,
+			HttpServletRequest request, HttpServletResponse response) 
+			throws IllegalStateException, IOException{
 		Map<String,String> result = new HashMap<String, String>();
 		try{
 		String path = userInfoMgrService.uploadUserPro(file);

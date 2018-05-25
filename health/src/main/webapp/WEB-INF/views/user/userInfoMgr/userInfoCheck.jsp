@@ -44,13 +44,18 @@ input{
     }
     .login{
     				/* text-align:center; */
-    				margin-left:5%;
+    				position:absolute;
+    				margin-left:15%;
     				margin-top:5%;
+    				width:40%;
+    				overflow:hidden;
 		    }  
 	.touxiang{
-					margin-left:50%;
+					width:50%;
+					margin-left:20%;
     				margin-top:5%;
     				float:right;
+    				positin:relative;
 	} 
     .subBtn{
     				background-color: white;

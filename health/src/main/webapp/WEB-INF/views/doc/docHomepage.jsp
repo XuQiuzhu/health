@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<ul>
 							<li><a onclick="addTab('预约请求','<%=basePath%>docTreatUserController/toSubscribeReqPage.do')">预约请求</a></li>
 							<li><a onclick="addTab('诊断','<%=basePath%>docTreatUserController/doTreat.do')">诊断</a></li>
-							<li><a onclick="addTab('诊断历史','<%=basePath%>docTreatUserController/toUserDataChartsPage.do')">诊断历史</a></li>
+							<%-- <li><a onclick="addTab('诊断历史','<%=basePath%>docTreatUserController/toUserDataChartsPage.do')">诊断历史</a></li> --%>
 						</ul>
 					</li>
 				</ul>

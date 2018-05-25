@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="android.dao.IAndroidDao">
+	<select id="androidUserLogin" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.USERID,
+			A.PHONE,
+			A.EMAIL,
+			A.PASSWORD
+		FROM 
+			H_USER A
+		WHERE 
+			A.PHONE = #{PHONE}
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="androidDocLogin" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.DOCID,
+			A.DOCNAME,
+			A.NICKNAME,
+			A.PHONE,
+			A.GENDER,
+			A.SELFAGE,
+			A.PORTRAIT,
+			A.EMAIL,
+			A.TIP,
+			B.DEP_NAME AS DEPARTMENT,
+			A.HOSPITAL,
+			A.LEVEL,
+			A.PASSWORD
+		FROM 
+			H_DOC A,H_DOC_DEPARTMENT B
+		WHERE 
+			A.PHONE = #{PHONE}
+		AND
+			A.DEPARTMENT = B.DEP_CODE
+		AND 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="androidGetAllDepartment" resultType="java.util.HashMap">
+		SELECT
+			A.DEP_CODE,
+			A.DEP_NAME
+		FROM 
+			H_DOC_DEPARTMENT A
+		WHERE 
+			A.DELETE_FLAG = 0
+	</select>
+	
+	<select id="AndroidGetUserUUID" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID
+		FROM 
+			H_USER A
+		WHERE 
+			A.PHONE = #{PHONE}
+	</select>
+	<select id="AndroidGetDocUUID" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID
+		FROM 
+			H_DOC A
+		WHERE 
+			A.PHONE = #{PHONE}
+	</select>
+	
+	<select id="getUserList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.USERNAME,
+			A.NICKNAME,
+			A.PHONE,
+			A.GENDER,
+			A.SELFAGE,
+			A.EMAIL,
+			A.PORTRAIT,
+			A.CREATETIME,
+			A.COUNTRY,
+			A.PROVINCE,
+			A.CITY,
+			A.AREA,
+			A.BORN_DATE
+		FROM 
+			H_USER A,H_USER_CARE_DOC B,H_DOC C
+		WHERE
+			C.PHONE = #{PHONE}
+		AND
+			B.DOC_ID = C.UUID
+		AND
+			A.UUID = B.USER_ID 
+		AND
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getDocList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			C.UUID,
+			C.PHONE,
+			C.HOSPITAL,
+			C.PORTRAIT,
+			C.DOCNAME,
+			D.DEP_NAME AS DEPARTMENT
+		FROM 
+			H_USER A,H_USER_CARE_DOC B,H_DOC C,H_DOC_DEPARTMENT D
+		WHERE
+			A.PHONE = #{PHONE}
+		AND
+			B.DOC_ID = C.UUID
+		AND
+			A.UUID = B.USER_ID 
+		AND
+			C.DEPARTMENT = D.DEP_CODE
+		AND
+			A.DELETE_FLAG = 0
+		AND
+			B.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getRemarkList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.USERNAME,
+			A.NICKNAME,
+			B.COMMENT,
+			B.SATISFACTION,
+			D.DESCRIPTION,
+			D.CONTENT
+		FROM 
+			H_USER A,H_FEEDBACK B,H_DOC C,H_DIAGNOSE D
+		WHERE
+			C.PHONE = #{PHONE}
+		AND
+			B.DOCID = C.UUID
+		AND
+			A.UUID = B.USERID 
+		AND
+			B.SUBSCRIBEID = D.SUBSCRIBEID
+		AND
+			A.DELETE_FLAG = 0
+		AND
+			C.DELETE_FLAG = 0
+	</select>
+	
+	<select id="getUserData" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.UUID,
+			A.HEARTRATE,
+			A.HIGHPRESSURE,
+			A.LOWPRESSURE,
+			A.BLOODSUGAR,
+			A.BLOODLIPID,
+			A.HIGHCHOLESTEROL,
+			A.CHOLESTEROL,
+			A.TRIOXYPURINE,
+			A.TEMPERATURE,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME
+		FROM 
+			H_MONITOR A,H_USER B
+		WHERE 
+			A.USERID = B.UUID
+		AND
+			B.PHONE = #{PHONE}
+		AND 
+			A.DELETE_FLAG = 0
+		ORDER BY A.CREATETIME DESC
+	</select>
+	
+	<select id="getDocReserve" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			C.USERNAME,
+			C.NICKNAME,
+			C.PHONE,
+			A.UUID,
+			A.DESCRIPTION,
+			A.DIAGNOSE_STATUS,
+			DATE_FORMAT(A.SUB_TIME, '%Y-%C-%D %H:%I:%S') AS SUB_TIME
+		FROM 
+			H_SUBSCRIBE A,H_DOC B,H_USER C
+		WHERE 
+			A.DOCID = B.UUID
+		AND
+			A.USERID = C.UUID
+		AND
+			B.PHONE = #{PHONE}
+		AND
+			A.SUB_TIME IS NOT NULL 
+		AND
+			A.DIAGNOSE_STATUS = 0
+		AND 
+			A.DELETE_FLAG = 0
+		ORDER BY A.CREATETIME DESC
+	</select>
+	
+	<select id="androidGetAllReserve" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+			A.DESCRIPTION,
+			C.USERNAME,
+			C.NICKNAME,
+			DATE_FORMAT(A.CREATETIME, '%Y-%C-%D %H:%I:%S') AS CREATETIME,
+			DATE_FORMAT(A.SUB_TIME, '%Y-%C-%D %H:%I:%S') AS SUB_TIME
+		FROM 
+			H_SUBSCRIBE A,H_DOC B,h_user c
+		WHERE 
+			A.DOCID = B.UUID
+		AND
+			B.PHONE = #{DOCPHONE}
+		AND
+			A.USERID = C.UUID
+		AND
+			A.SUB_TIME IS NOT NULL 
+		AND 
+			A.DELETE_FLAG = 0
+		ORDER BY A.CREATETIME DESC
+	</select>
+	
+	<insert id="androidDocRegister" parameterType="java.util.Map">
+		INSERT INTO H_DOC
+		  (UUID,NICKNAME,PHONE,IDENTITY,GENDER,PASSWORD,EMAIL,DOCNAME,SELFAGE,HOSPITAL,DEPARTMENT,CREATETIME,DELETE_FLAG)
+		VALUES
+		  (#{UUID},'',#{PHONE},2,'',#{PASSWORD},'',#{DOCNAME},'',#{HOSPITAL},#{DEPARTMENT},NOW(),0)
+	</insert>
+	
+	<insert id="androidUserRegister" parameterType="java.util.Map">
+		INSERT INTO H_USER
+		  (UUID,NICKNAME,PHONE,IDENTITY,GENDER,PASSWORD,EMAIL,CREATETIME,DELETE_FLAG,UPDATER,UPDATETIME)
+		VALUES
+		  (#{UUID},'',#{PHONE},1,'',#{PASSWORD},'',NOW(),0,'',NOW())
+	</insert>
+	
+	<insert id="setUserData" parameterType="java.util.Map">
+		INSERT INTO H_MONITOR
+		  (UUID,USERID,HEARTRATE,HIGHPRESSURE,LOWPRESSURE,BLOODSUGAR,BLOODLIPID,HIGHCHOLESTEROL,TRIOXYPURINE,CHOLESTEROL,TEMPERATURE,CREATETIME,UPDATETIME,DELETE_FLAG)
+		VALUES
+		  (#{UUID},#{USERID},#{HEARTRATE},#{HIGHPRESSURE},#{LOWPRESSURE},#{BLOODSUGAR},#{BLOODLIPID},#{HIGHCHOLESTEROL},#{TRIOXYPURINE},#{CHOLESTEROL},#{TEMPERATURE},NOW(),NOW(),0)
+	</insert>
+	
+	<insert id="setDocReserve" parameterType="java.util.Map">
+		INSERT INTO H_SUBSCRIBE
+		  (UUID,USERID,DOCID,TYPE,DESCRIPTION,CREATETIME,DIAGNOSE_STATUS,DELETE_FLAG,SUB_TIME)
+		VALUES(#{UUID},#{USERUUID},#{docUUID},'',#{RESERVEBRIEF},NOW(),0,0,#{RESERVEDATE})
+	</insert>
+	
+	<update id="androidDocInfoChange" parameterType="java.util.Map">
+		UPDATE H_DOC
+		SET	DOCNAME = #{DOCNAME},
+			NICKNAME = #{NICKNAME},
+			GENDER = #{GENDER},
+			<!-- SELFAGE = #{SELFAGE}, -->
+			EMAIL = #{EMAIL},
+			TIP = #{TIP}<!-- ,
+			DEPARTMENT = #{DEPARTMENT},
+			HOSPITAL = #{HOSPITAL} -->	
+		WHERE UUID = #{UUID}
+	</update>
+	<update id="androidUserInfoChange" parameterType="java.util.Map">
+		UPDATE H_USER
+		SET	USERNAME = #{USERNAME},
+			NICKNAME = #{NICKNAME},
+			GENDER = #{GENDER},
+			<!-- SELFAGE = #{SELFAGE}, -->
+			EMAIL = #{EMAIL}<!--,
+			TIP = #{TIP} ,
+			DEPARTMENT = #{DEPARTMENT},
+			HOSPITAL = #{HOSPITAL} -->	
+		WHERE UUID = #{UUID}
+	</update>
+	<update id="handleDocReserve" parameterType="java.util.Map">
+		UPDATE H_SUBSCRIBE
+		SET	DIAGNOSE_STATUS = #{DIAGNOSE_STATUS}
+		WHERE UUID = #{UUID}
+	</update>
+</mapper>
